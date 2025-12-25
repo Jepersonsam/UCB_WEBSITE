@@ -1,31 +1,64 @@
 # UCB Website – Vue (Vite) + Laravel + MySQL
 
-Stack yang akan digunakan:
+Stack yang digunakan:
 
-- Frontend: Vue 3 (Vite, SPA), npm
-- Backend: Laravel (PHP)
-- Database: MySQL
+- Frontend: Vue 3 (Vite, SPA) dengan Tailwind CSS v4
+- Backend: Laravel 12 (PHP)
+- Database: SQLite/MySQL
 
-## Langkah cepat
+## Struktur Project
 
-1) Inisialisasi backend (Laravel)  
-2) Inisialisasi frontend (Vite + Vue)  
-3) Konfigurasi `.env` untuk MySQL dan API base URL  
-4) Jalankan dev servers
-
-Detail perintah ada di `SETUP.md`.
-
-## Struktur folder yang disarankan
+Setelah migrasi, struktur project menjadi:
 
 ```
 UCBWebsite/
-├── backend/   # Laravel API
-└── frontend/  # Vue SPA (Vite)
+├── app/              # Laravel + Vue.js (unified structure)
+│   ├── app/          # Laravel application
+│   ├── resources/
+│   │   ├── js/       # Frontend Vue.js (public + admin)
+│   │   └── views/    # Blade templates
+│   ├── routes/       # Laravel routes
+│   └── public/       # Public assets
+├── backend/          # Backup (dapat dihapus setelah yakin)
+├── frontend/          # Backup (dapat dihapus setelah yakin)
+└── cms/              # Backup (dapat dihapus setelah yakin)
 ```
 
-## Apa selanjutnya
+## Instalasi
 
-- Jalankan langkah di `SETUP.md` untuk bootstrap project.
-- Setelah scaffold, tambahkan konfigurasi CORS di Laravel agar mengizinkan origin `http://localhost:5173`.
-- Mulai dari auth dan halaman dasar (home) di frontend.
+1. **Install dependencies:**
+   ```bash
+   cd app
+   composer install
+   npm install
+   ```
+
+2. **Setup environment:**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+3. **Jalankan migrasi:**
+   ```bash
+   php artisan migrate
+   ```
+
+4. **Jalankan aplikasi:**
+   ```bash
+   # Terminal 1: Laravel server
+   php artisan serve
+   
+   # Terminal 2: Vite dev server
+   npm run dev
+   ```
+
+## Akses
+
+- **Website Public:** http://127.0.0.1:8000
+- **Admin Panel:** http://127.0.0.1:8000/admin/login
+
+## Detail Setup
+
+Lihat `SETUP.md` untuk instruksi setup lengkap.
 
