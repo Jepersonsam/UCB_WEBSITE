@@ -10,28 +10,59 @@
       </div>
 
     <div class="mx-auto max-w-2xl">
-      <!-- Info Cards -->
-      <div v-if="joinContent.infoCards && joinContent.infoCards.length > 0" class="mb-6 sm:mb-8 grid gap-4 sm:grid-cols-2" data-aos="fade-up" data-aos-delay="100">
-        <div
-          v-for="(card, index) in joinContent.infoCards"
-          :key="index"
-          class="rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-6 shadow-sm"
-        >
-          <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100">
-            <svg v-if="index === 0" class="h-6 w-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <svg v-else class="h-6 w-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-800">{{ card.title }}</h3>
-          <p class="mt-2 text-sm text-slate-600">{{ card.description }}</p>
+      <!-- Loading State -->
+      <div v-if="loadingAuditionSchedules" class="rounded-2xl border border-sky-100 bg-white p-12 text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-sky-50">
+          <svg class="h-8 w-8 animate-spin text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </div>
+        <p class="mt-4 text-sm text-slate-600">Memuat informasi...</p>
+      </div>
+
+      <!-- No Audition Schedule Message -->
+      <div v-else-if="!hasActiveAuditionSchedule" class="rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50/50 to-white p-12 text-center shadow-lg" data-aos="fade-up" data-aos-delay="100">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-100">
+          <svg class="h-8 w-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="mt-4 text-xl font-bold text-slate-800">Belum Ada Jadwal Audisi</h3>
+        <p class="mt-2 text-sm text-slate-600">
+          Saat ini belum ada jadwal audisi penerimaan member baru yang tersedia.
+        </p>
+        <p class="mt-2 text-sm text-slate-600">
+          Silakan kunjungi halaman <RouterLink to="/schedule" class="font-semibold text-amber-600 hover:text-amber-700 transition-colors">Jadwal & Event</RouterLink> untuk melihat informasi terbaru tentang jadwal audisi mendatang.
+        </p>
+        <div v-if="joinContent.contactAlternative" class="mt-6 rounded-xl border border-amber-100 bg-amber-50/50 p-6">
+          <p class="text-sm text-slate-600" v-html="formatContactAlternative(joinContent.contactAlternative)"></p>
         </div>
       </div>
 
-      <!-- Join Form -->
-      <div class="rounded-2xl border border-sky-100 bg-white p-8 shadow-lg lg:p-10" data-aos="fade-up" data-aos-delay="200">
+      <!-- Info Cards & Join Form (only shown when there's an active audition schedule) -->
+      <template v-else>
+        <!-- Info Cards -->
+        <div v-if="joinContent.infoCards && joinContent.infoCards.length > 0" class="mb-6 sm:mb-8 grid gap-4 sm:grid-cols-2" data-aos="fade-up" data-aos-delay="100">
+          <div
+            v-for="(card, index) in joinContent.infoCards"
+            :key="index"
+            class="rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-6 shadow-sm"
+          >
+            <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100">
+              <svg v-if="index === 0" class="h-6 w-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <svg v-else class="h-6 w-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-slate-800">{{ card.title }}</h3>
+            <p class="mt-2 text-sm text-slate-600">{{ card.description }}</p>
+          </div>
+        </div>
+
+        <!-- Join Form -->
+        <div class="rounded-2xl border border-sky-100 bg-white p-8 shadow-lg lg:p-10" data-aos="fade-up" data-aos-delay="200">
         <h2 class="mb-2 text-2xl font-bold text-slate-800">{{ joinContent.formTitle || 'Formulir Pendaftaran' }}</h2>
         <p class="mb-6 text-slate-600">{{ joinContent.formDescription || 'Isi formulir di bawah ini atau hubungi kami untuk informasi lebih lanjut tentang audisi' }}</p>
         
@@ -119,6 +150,7 @@
           <p class="text-sm text-slate-600" v-html="formatContactAlternative(joinContent.contactAlternative)"></p>
         </div>
       </div>
+      </template>
     </div>
   </div>
 </template>
@@ -174,11 +206,37 @@ const form = ref({
 const submitting = ref(false)
 const submitSuccess = ref(false)
 const submitError = ref('')
+const loadingAuditionSchedules = ref(true)
+const hasActiveAuditionSchedule = ref(false)
 
 const formatContactAlternative = (text: string) => {
   if (!text) return ''
   // Replace /contact with link
   return text.replace(/halaman kontak/g, '<a href="/contact" class="font-semibold text-sky-600 hover:text-sky-700 transition-colors">halaman kontak</a>')
+}
+
+const fetchAuditionSchedules = async () => {
+  try {
+    loadingAuditionSchedules.value = true
+    // Fetch jadwal audisi yang aktif dan akan datang
+    const response = await api.get('/v1/audition-schedules?filter=upcoming')
+    
+    // Backend mengembalikan langsung array, bukan pagination
+    let schedules = []
+    if (Array.isArray(response.data)) {
+      schedules = response.data
+    } else if (response.data.data && Array.isArray(response.data.data)) {
+      schedules = response.data.data
+    }
+    
+    // Cek apakah ada jadwal audisi aktif
+    hasActiveAuditionSchedule.value = schedules.length > 0
+  } catch (error) {
+    console.error('Error fetching audition schedules:', error)
+    hasActiveAuditionSchedule.value = false
+  } finally {
+    loadingAuditionSchedules.value = false
+  }
 }
 
 const fetchJoinContent = async () => {
@@ -231,8 +289,11 @@ const handleSubmit = async () => {
   }
 }
 
-onMounted(() => {
-  fetchJoinContent()
+onMounted(async () => {
+  await Promise.all([
+    fetchJoinContent(),
+    fetchAuditionSchedules()
+  ])
 })
 </script>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\JoinApplication;
+use App\Models\AuditionSchedule;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
@@ -36,6 +37,17 @@ class JoinApplicationController extends Controller
      */
     public function store(Request $request)
     {
+        // Cek apakah ada jadwal audisi aktif dan akan datang
+        $hasActiveAuditionSchedule = AuditionSchedule::where('is_active', true)
+            ->where('audition_date', '>=', now()->toDateString())
+            ->exists();
+
+        if (!$hasActiveAuditionSchedule) {
+            return response()->json([
+                'message' => 'Saat ini belum ada jadwal audisi penerimaan member baru yang tersedia. Silakan kunjungi halaman Jadwal & Event untuk informasi terbaru.',
+            ], 422);
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',

@@ -365,17 +365,6 @@
               UCB terdiri dari orang-orang muda yang berkomitmen untuk melayani Allah dan menyebarkan Injil melalui musik. Seiring waktu, UCB telah berkembang dan membentuk beberapa cabang di berbagai lokasi, termasuk Jakarta, Manila, AUP, Bangkok, Balikpapan, dan Australia.
             </p>
           </div>
-          <component
-            v-if="aboutContent.learnMoreUrl"
-            :is="isExternalLink ? 'a' : 'RouterLink'"
-            :href="isExternalLink ? aboutContent.learnMoreUrl : undefined"
-            :to="!isExternalLink ? aboutContent.learnMoreUrl : undefined"
-            :target="isExternalLink ? '_blank' : undefined"
-            class="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-indigo-600 transition-all hover:bg-indigo-50 hover:text-indigo-700"
-          >
-            {{ aboutContent.learnMoreText || 'Pelajari Lebih Lanjut' }}
-            <span>→</span>
-          </component>
         </div>
         <div class="grid gap-5 sm:grid-cols-2" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
           <div
@@ -665,7 +654,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import api from '@/lib/api/client'
 
 // Hero Content
@@ -990,8 +979,6 @@ const defaultAboutContent = {
   paragraph1: '',
   paragraph2: '',
   paragraph3: '',
-  learnMoreText: 'Pelajari Lebih Lanjut',
-  learnMoreUrl: '',
   cards: [
     { title: 'Musik Koor', description: 'Berbagai genre musik rohani dengan harmoni yang indah' },
     { title: 'Komunitas', description: 'Komunitas yang solid dan saling mendukung' },
@@ -1001,12 +988,6 @@ const defaultAboutContent = {
 }
 
 const aboutContent = ref({ ...defaultAboutContent })
-
-const isExternalLink = computed(() => {
-  if (!aboutContent.value.learnMoreUrl) return false
-  return aboutContent.value.learnMoreUrl.startsWith('http://') || 
-         aboutContent.value.learnMoreUrl.startsWith('https://')
-})
 
 const formatParagraph = (text: string) => {
   if (!text) return ''

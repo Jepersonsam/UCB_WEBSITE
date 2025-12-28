@@ -100,6 +100,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/contact-messages', [ContactMessageController::class, 'index']);
         Route::get('/contact-messages/{id}', [ContactMessageController::class, 'show']);
         Route::put('/contact-messages/{id}', [ContactMessageController::class, 'update']);
+        Route::post('/contact-messages/{id}/reply', [ContactMessageController::class, 'reply']);
         Route::delete('/contact-messages/{id}', [ContactMessageController::class, 'destroy']);
         
         // Comments - protected routes for managing comments

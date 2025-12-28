@@ -12,13 +12,27 @@ class MemberController extends Controller
     public function index()
     {
         $members = Member::orderBy('order')->orderBy('name')->get();
+        // Add avatar_url to each member for easier frontend access
+        $members->transform(function ($member) {
+            $memberData = $member->toArray();
+            if ($member->avatar) {
+                // Use asset() helper which uses the current request's base URL
+                $memberData['avatar_url'] = asset('storage/' . $member->avatar);
+            }
+            return $memberData;
+        });
         return response()->json($members);
     }
 
     public function show($id)
     {
         $member = Member::findOrFail($id);
-        return response()->json($member);
+        $memberData = $member->toArray();
+        if ($member->avatar) {
+            // Use asset() helper which uses the current request's base URL
+            $memberData['avatar_url'] = asset('storage/' . $member->avatar);
+        }
+        return response()->json($memberData);
     }
 
     public function store(Request $request)
@@ -49,7 +63,23 @@ class MemberController extends Controller
 
         $member = Member::create($validated);
         
-        return response()->json($member, 201);
+        // Log avatar path after creation
+        \Log::info('Member Created', [
+            'member_id' => $member->id,
+            'member_name' => $member->name,
+            'avatar_path' => $member->avatar,
+            'avatar_url' => $member->avatar ? asset('storage/' . $member->avatar) : null,
+            'file_exists' => $member->avatar ? Storage::disk('public')->exists($member->avatar) : false,
+        ]);
+        
+        // Return member with avatar_url for convenience
+        $memberData = $member->toArray();
+        if ($member->avatar) {
+            // Use asset() helper which uses the current request's base URL
+            $memberData['avatar_url'] = asset('storage/' . $member->avatar);
+        }
+        
+        return response()->json($memberData, 201);
     }
 
     public function update(Request $request, $id)
@@ -208,9 +238,30 @@ class MemberController extends Controller
             'member_is_active' => $member->is_active,
             'member_order' => $member->order,
             'member_badges' => $member->badges,
+            'member_avatar' => $member->avatar,
         ]);
         
-        return response()->json($member);
+        // Refresh member to ensure avatar path is correct
+        $member->refresh();
+        
+        // Log final avatar path
+        \Log::info('Member Update - Final Response', [
+            'member_id' => $member->id,
+            'member_name' => $member->name,
+            'avatar_path' => $member->avatar,
+            'avatar_url' => $member->avatar ? asset('storage/' . $member->avatar) : null,
+            'file_exists' => $member->avatar ? Storage::disk('public')->exists($member->avatar) : false,
+            'storage_path' => $member->avatar ? storage_path('app/public/' . $member->avatar) : null,
+        ]);
+        
+        // Return member with avatar_url for convenience
+        $memberData = $member->toArray();
+        if ($member->avatar) {
+            // Use asset() helper which uses the current request's base URL
+            $memberData['avatar_url'] = asset('storage/' . $member->avatar);
+        }
+        
+        return response()->json($memberData);
     }
 
     public function destroy($id)

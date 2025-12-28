@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMessageReply;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class ContactMessageController extends Controller
 {
@@ -73,6 +76,53 @@ class ContactMessageController extends Controller
         $message->update($validated);
 
         return response()->json($message);
+    }
+
+    /**
+     * Reply to a contact message.
+     */
+    public function reply(Request $request, string $id)
+    {
+        $message = ContactMessage::findOrFail($id);
+
+        $validated = $request->validate([
+            'reply_message' => 'required|string|min:10',
+            'admin_name' => 'nullable|string|max:255',
+        ]);
+
+        try {
+            $adminName = $validated['admin_name'] ?? $request->user()->name ?? 'Admin UCB';
+            
+            // Send email reply
+            Mail::to($message->email)
+                ->send(new ContactMessageReply(
+                    $message,
+                    $validated['reply_message'],
+                    $adminName
+                ));
+
+            Log::info('Contact message reply sent', [
+                'message_id' => $message->id,
+                'recipient' => $message->email,
+                'admin_name' => $adminName,
+            ]);
+
+            return response()->json([
+                'message' => 'Balasan berhasil dikirim ke email ' . $message->email,
+                'success' => true,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to send contact message reply', [
+                'message_id' => $message->id,
+                'recipient' => $message->email,
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'message' => 'Gagal mengirim balasan: ' . $e->getMessage(),
+                'success' => false,
+            ], 500);
+        }
     }
 
     /**

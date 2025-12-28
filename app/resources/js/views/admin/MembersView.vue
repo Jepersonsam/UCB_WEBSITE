@@ -42,16 +42,30 @@
       >
         <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-full bg-sky-100">
           <img 
-            v-if="member.avatar" 
-            :src="getAvatarUrl(member.avatar)" 
+            :key="`member-${member.id}-${member.avatar || 'no-avatar'}`"
+            :src="getMemberAvatarUrl(member)" 
             :alt="member.name" 
             class="h-full w-full object-cover" 
+            @error="(e) => { 
+              const img = e.target as HTMLImageElement
+              const originalSrc = img.src
+              console.error('Avatar load error for member:', member.name)
+              console.error('Avatar path:', member.avatar)
+              console.error('Generated URL:', originalSrc)
+              console.error('Full member data:', member)
+              // Only set placeholder if it's not already a placeholder
+              if (!originalSrc.startsWith('data:')) {
+                console.warn('Image failed to load, using placeholder')
+                img.src = getPlaceholderAvatar()
+              }
+            }"
+            @load="() => { 
+              if (member.avatar) {
+                console.log('Avatar loaded successfully for:', member.name)
+                console.log('Avatar URL:', getMemberAvatarUrl(member))
+              }
+            }"
           />
-          <div v-else class="flex h-full items-center justify-center text-sky-400">
-            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-          </div>
         </div>
         <div class="flex-1">
           <div class="flex items-center gap-2">
@@ -128,12 +142,51 @@
               @change="handleAvatarChange"
               class="w-full rounded-xl border border-sky-200 px-4 py-2"
             />
-            <div v-if="form.avatar || avatarPreview" class="mt-2">
-              <img 
-                :src="avatarPreview || (form.avatar ? getAvatarUrl(form.avatar) : '')" 
-                alt="Preview" 
-                class="h-24 w-24 rounded-full object-cover border border-sky-200"
-              />
+            <div class="mt-2">
+              <!-- Show preview if new file selected -->
+              <div v-if="avatarPreview && avatarFile" class="mb-2">
+                <img 
+                  :src="avatarPreview" 
+                  alt="New Avatar Preview" 
+                  class="h-24 w-24 rounded-full object-cover border border-sky-200"
+                  @error="(e) => { console.error('Preview image error:', e); handleImageError(e) }"
+                  @load="() => console.log('Preview image loaded')"
+                />
+                <p class="mt-1 text-xs text-slate-500">Preview (File baru)</p>
+              </div>
+              <!-- Show current avatar if exists and no new file selected -->
+              <div v-else-if="form.avatar" class="mb-2">
+                <img 
+                  :key="`form-avatar-${form.avatar}`"
+                  :src="getAvatarUrl(form.avatar)" 
+                  alt="Current Avatar" 
+                  class="h-24 w-24 rounded-full object-cover border border-sky-200"
+                  @error="(e) => { 
+                    const img = e.target as HTMLImageElement
+                    const originalSrc = img.src
+                    console.error('Current avatar error:', e); 
+                    console.error('Avatar path:', form.avatar); 
+                    console.error('Generated URL:', originalSrc);
+                    console.error('Trying to fetch:', originalSrc);
+                    // Only set placeholder if it's not already a placeholder
+                    if (!originalSrc.startsWith('data:')) {
+                      console.warn('Image failed to load, using placeholder')
+                      img.src = getPlaceholderAvatar()
+                    }
+                  }"
+                  @load="() => {
+                    console.log('Current avatar loaded successfully:', getAvatarUrl(form.avatar))
+                    console.log('Loaded from URL:', getAvatarUrl(form.avatar))
+                  }"
+                />
+                <p class="mt-1 text-xs text-slate-500">Foto saat ini: {{ form.avatar }}</p>
+                <p class="mt-1 text-xs text-slate-400">URL: {{ getAvatarUrl(form.avatar) }}</p>
+                <p class="mt-1 text-xs text-blue-500 cursor-pointer" @click="() => window.open(getAvatarUrl(form.avatar), '_blank')">🔗 Buka URL di tab baru</p>
+              </div>
+              <!-- Show placeholder if no avatar -->
+              <div v-else class="h-24 w-24 rounded-full bg-sky-100 flex items-center justify-center border border-sky-200">
+                <span class="text-xs text-slate-400">Belum ada foto</span>
+              </div>
             </div>
           </div>
 
@@ -236,12 +289,73 @@ const filteredMembers = computed(() => {
   return members.value.filter(m => m.role === selectedRole.value)
 })
 
+const getPlaceholderAvatar = () => {
+  return 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3QgZmlsbD0iI2UwZTdlZiIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMzIiLz48dGV4dCBmaWxsPSIjOTRhM2I4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgeD0iNTAlIiB5PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4='
+}
+
+const getMemberAvatarUrl = (member: any) => {
+  if (!member) {
+    return getPlaceholderAvatar()
+  }
+  
+  // Priority 1: Use avatar_url from API if available (backend provides full URL)
+  if (member.avatar_url) {
+    console.log('Using avatar_url from API for', member.name, ':', member.avatar_url)
+    return member.avatar_url
+  }
+  
+  // Priority 2: Generate URL from avatar path
+  if (member.avatar) {
+    const url = getAvatarUrl(member.avatar)
+    console.log('Generated avatar URL for', member.name, ':', url, 'from path:', member.avatar)
+    return url
+  }
+  
+  // Priority 3: Return placeholder
+  return getPlaceholderAvatar()
+}
+
 const getAvatarUrl = (avatarPath: string) => {
-  if (!avatarPath) return ''
-  if (avatarPath.startsWith('http')) return avatarPath
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
-  return `${backendUrl}/storage/${avatarPath}`
+  if (!avatarPath) return getPlaceholderAvatar()
+  
+  // If already a full URL, return as is
+  if (avatarPath.startsWith('http://') || avatarPath.startsWith('https://')) {
+    return avatarPath
+  }
+  
+  // Get base URL from current window location
+  const baseUrl = window.location.origin
+  
+  // Handle different path formats
+  if (avatarPath.startsWith('/storage/')) {
+    return `${baseUrl}${avatarPath}`
+  }
+  if (avatarPath.startsWith('storage/')) {
+    return `${baseUrl}/${avatarPath}`
+  }
+  
+  // Laravel stores files in storage/app/public, accessible via /storage/ symlink
+  // If path is like "members/filename.jpg", convert to "/storage/members/filename.jpg"
+  // Remove any leading slashes from avatarPath to avoid double slashes
+  const cleanPath = avatarPath.replace(/^\/+/, '')
+  const url = `${baseUrl}/storage/${cleanPath}`
+  
+  // Debug log
+  if (import.meta.env.DEV) {
+    console.log('Generated avatar URL:', {
+      originalPath: avatarPath,
+      cleanPath: cleanPath,
+      fullUrl: url
+    })
+  }
+  
+  return url
+}
+
+const handleImageError = (e: Event) => {
+  const img = e.target as HTMLImageElement
+  // Set placeholder image on error
+  img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="96" height="96"%3E%3Crect fill="%23e0e7ef" width="96" height="96" rx="48"/%3E%3Ctext fill="%2394a3b8" font-family="sans-serif" font-size="14" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E'
 }
 
 const resetForm = () => {
@@ -303,7 +417,20 @@ const fetchMembers = async () => {
   loading.value = true
   try {
     const response = await api.get('/v1/members')
-    members.value = response.data.data || response.data
+    const fetchedMembers = response.data.data || response.data
+    members.value = fetchedMembers
+    console.log('Fetched members:', fetchedMembers.length)
+    // Debug: Log avatar paths and URLs for all members
+    fetchedMembers.forEach((m: any) => {
+      const avatarUrl = getMemberAvatarUrl(m)
+      console.log(`Member: ${m.name}`, {
+        id: m.id,
+        has_avatar: !!m.avatar,
+        avatar_path: m.avatar || 'NULL',
+        avatar_url: avatarUrl,
+        avatar_url_type: avatarUrl.startsWith('data:') ? 'placeholder' : 'image'
+      })
+    })
   } catch (error) {
     console.error('Error fetching members:', error)
   } finally {
@@ -323,7 +450,15 @@ const editMember = (member: any) => {
     order: member.order || 0,
   }
   avatarFile.value = null
+  // Clear preview first - will show current avatar from form.avatar
   avatarPreview.value = null
+  // Log for debugging
+  console.log('Editing member:', {
+    id: member.id,
+    name: member.name,
+    avatar_path: member.avatar,
+    avatar_url: member.avatar ? getAvatarUrl(member.avatar) : 'No avatar'
+  })
   showFormModal.value = true
 }
 
@@ -359,20 +494,46 @@ const saveMember = async () => {
     console.log('Editing member:', editingMember.value)
     console.log('Form values:', form.value)
 
+    let updatedMember = null
+    
     if (editingMember.value) {
       console.log('Updating member with ID:', editingMember.value.id)
       // Use POST with _method=PUT for FormData compatibility
       formData.append('_method', 'PUT')
       const response = await api.post(`/v1/members/${editingMember.value.id}`, formData)
-      console.log('Update response:', response.data)
+      updatedMember = response.data
+      console.log('Update response:', updatedMember)
+      console.log('Updated avatar path:', updatedMember.avatar)
+      console.log('Avatar URL:', updatedMember.avatar ? getAvatarUrl(updatedMember.avatar) : 'No avatar')
+      
+      // Update the member in the list immediately with the response data
+      const memberIndex = members.value.findIndex(m => m.id === editingMember.value.id)
+      if (memberIndex !== -1) {
+        // Use splice to ensure Vue reactivity detects the change
+        const updatedMemberData = { ...updatedMember }
+        members.value.splice(memberIndex, 1, updatedMemberData)
+        console.log('Member updated in list:', updatedMemberData)
+        console.log('Member avatar path:', updatedMemberData.avatar)
+        console.log('Member avatar URL:', updatedMemberData.avatar ? getAvatarUrl(updatedMemberData.avatar) : 'No avatar')
+      }
     } else {
-      await api.post('/v1/members', formData)
+      const response = await api.post('/v1/members', formData)
+      updatedMember = response.data
+      console.log('Create response:', updatedMember)
+      console.log('Created member avatar path:', updatedMember.avatar)
+      console.log('Created member avatar URL:', updatedMember.avatar ? getAvatarUrl(updatedMember.avatar) : 'No avatar')
+      // Add new member to list
+      members.value.push(updatedMember)
     }
 
     showFormModal.value = false
     editingMember.value = null
     resetForm()
+    
+    // Refresh members list to get latest data from server
+    // This ensures avatar path is correct after upload
     await fetchMembers()
+    
     await swal.success('Member berhasil disimpan!')
   } catch (error: any) {
     let errorMessage = 'Gagal menyimpan member'

@@ -62,6 +62,7 @@
               :src="getAvatarUrl(member.avatar)"
               :alt="member.name"
               class="relative h-28 w-28 rounded-full border-3 border-indigo-100 object-cover shadow-sm transition-transform duration-300 group-hover:scale-110"
+              @error="handleImageError"
             />
             <div class="absolute bottom-0 right-0 h-5 w-5 rounded-full border-3 border-white bg-indigo-500 shadow-sm"></div>
           </div>
@@ -104,6 +105,7 @@
               :src="getAvatarUrl(member.avatar)"
               :alt="member.name"
               class="relative h-28 w-28 rounded-full border-3 border-indigo-100 object-cover shadow-sm transition-transform duration-300 group-hover:scale-110"
+              @error="handleImageError"
             />
             <div class="absolute bottom-0 right-0 h-5 w-5 rounded-full border-3 border-white bg-indigo-500 shadow-sm"></div>
           </div>
@@ -146,6 +148,7 @@
               :src="getAvatarUrl(member.avatar)"
               :alt="member.name"
               class="relative h-28 w-28 rounded-full border-3 border-indigo-100 object-cover shadow-sm transition-transform duration-300 group-hover:scale-110"
+              @error="handleImageError"
             />
             <div class="absolute bottom-0 right-0 h-5 w-5 rounded-full border-3 border-white bg-indigo-500 shadow-sm"></div>
           </div>
@@ -188,6 +191,7 @@
               :src="getAvatarUrl(member.avatar)"
               :alt="member.name"
               class="relative h-28 w-28 rounded-full border-3 border-indigo-100 object-cover shadow-sm transition-transform duration-300 group-hover:scale-110"
+              @error="handleImageError"
             />
             <div class="absolute bottom-0 right-0 h-5 w-5 rounded-full border-3 border-white bg-indigo-500 shadow-sm"></div>
           </div>
@@ -230,6 +234,7 @@
               :src="getAvatarUrl(member.avatar)"
               :alt="member.name"
               class="relative h-28 w-28 rounded-full border-3 border-indigo-100 object-cover shadow-sm transition-transform duration-300 group-hover:scale-110"
+              @error="handleImageError"
             />
             <div class="absolute bottom-0 right-0 h-5 w-5 rounded-full border-3 border-white bg-indigo-500 shadow-sm"></div>
           </div>
@@ -278,12 +283,37 @@ const loading = ref(true)
 const selectedRole = ref<string>('Semua')
 const roles = ['Soprano', 'Alto', 'Tenor', 'Bass', 'Conductor']
 
+const getPlaceholderAvatar = () => {
+  return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="112" height="112"%3E%3Crect fill="%23e0e7ef" width="112" height="112" rx="56"/%3E%3Ctext fill="%2394a3b8" font-family="sans-serif" font-size="14" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E'
+}
+
 const getAvatarUrl = (avatarPath: string | null) => {
-  if (!avatarPath) return 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80'
-  if (avatarPath.startsWith('http')) return avatarPath
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
-  return `${backendUrl}/storage/${avatarPath}`
+  if (!avatarPath) {
+    // Return placeholder image if no avatar
+    return getPlaceholderAvatar()
+  }
+  if (avatarPath.startsWith('http://') || avatarPath.startsWith('https://')) {
+    return avatarPath
+  }
+  
+  // Get base URL from current window location
+  const baseUrl = window.location.origin
+  
+  // Handle different path formats
+  if (avatarPath.startsWith('/storage/')) {
+    return `${baseUrl}${avatarPath}`
+  }
+  if (avatarPath.startsWith('storage/')) {
+    return `${baseUrl}/${avatarPath}`
+  }
+  // Laravel stores files in storage/app/public, accessible via /storage/ symlink
+  // If path is like "members/filename.jpg", convert to "/storage/members/filename.jpg"
+  return `${baseUrl}/storage/${avatarPath}`
+}
+
+const handleImageError = (e: Event) => {
+  const img = e.target as HTMLImageElement
+  img.src = getPlaceholderAvatar()
 }
 
 const getMembersByRole = (role: string) => {

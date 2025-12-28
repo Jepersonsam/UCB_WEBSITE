@@ -160,6 +160,13 @@
             </div>
             <div class="flex flex-col gap-2">
               <button
+                @click="openReplyModal(message)"
+                :disabled="replying"
+                class="rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-600 transition-colors hover:bg-indigo-100 disabled:opacity-50"
+              >
+                Balas
+              </button>
+              <button
                 @click="toggleRead(message)"
                 :disabled="updating"
                 class="rounded-lg border px-3 py-2 text-xs font-semibold transition-colors disabled:opacity-50"
@@ -202,6 +209,85 @@
         Selanjutnya
       </button>
     </div>
+
+    <!-- Reply Modal -->
+    <div
+      v-if="showReplyModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      @click.self="closeReplyModal"
+    >
+      <div class="w-full max-w-2xl rounded-2xl border border-sky-100 bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+        <div class="mb-4 flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-slate-800">Balas Pesan</h3>
+          <button
+            @click="closeReplyModal"
+            class="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div v-if="replyingMessage" class="space-y-4">
+          <!-- Original Message Info -->
+          <div class="rounded-xl border border-sky-100 bg-sky-50/50 p-4">
+            <div class="mb-2 text-sm font-semibold text-slate-700">Pesan Asli:</div>
+            <div class="space-y-1 text-sm text-slate-600">
+              <div><strong>Dari:</strong> {{ replyingMessage.name }} ({{ replyingMessage.email }})</div>
+              <div><strong>Subjek:</strong> {{ replyingMessage.subject }}</div>
+              <div class="mt-2 rounded-lg border border-sky-200 bg-white p-3">
+                <p class="whitespace-pre-wrap text-slate-700">{{ replyingMessage.message }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reply Form -->
+          <form @submit.prevent="sendReply" class="space-y-4">
+            <div>
+              <label class="mb-2 block text-sm font-medium text-slate-700">Balasan Anda *</label>
+              <textarea
+                v-model="replyForm.message"
+                rows="8"
+                required
+                minlength="10"
+                placeholder="Tulis balasan Anda di sini..."
+                class="w-full rounded-xl border border-sky-200 px-4 py-3 text-sm focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200"
+              ></textarea>
+              <p class="mt-1 text-xs text-slate-500">Minimal 10 karakter</p>
+            </div>
+
+            <div>
+              <label class="mb-2 block text-sm font-medium text-slate-700">Nama Pengirim (Opsional)</label>
+              <input
+                v-model="replyForm.adminName"
+                type="text"
+                placeholder="Nama Anda (default: Admin UCB)"
+                class="w-full rounded-xl border border-sky-200 px-4 py-2 text-sm focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200"
+              />
+            </div>
+
+            <div class="flex gap-3 pt-4">
+              <button
+                type="button"
+                @click="closeReplyModal"
+                :disabled="replying"
+                class="flex-1 rounded-xl border border-sky-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                :disabled="replying || !replyForm.message || replyForm.message.length < 10"
+                class="flex-1 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:from-indigo-600 hover:to-indigo-700 disabled:opacity-50"
+              >
+                {{ replying ? 'Mengirim...' : 'Kirim Balasan' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -226,8 +312,16 @@ const messages = ref<ContactMessage[]>([])
 const loading = ref(true)
 const updating = ref(false)
 const deleting = ref(false)
+const replying = ref(false)
+const showReplyModal = ref(false)
+const replyingMessage = ref<ContactMessage | null>(null)
 const filter = ref<'all' | 'unread' | 'read'>('all')
 const pagination = ref<any>(null)
+
+const replyForm = ref({
+  message: '',
+  adminName: '',
+})
 
 const unreadCount = computed(() => {
   return messages.value.filter(m => !m.is_read).length
@@ -311,6 +405,51 @@ const deleteMessage = async (id: number) => {
 
 const loadPage = (page: number) => {
   fetchMessages(page)
+}
+
+const openReplyModal = (message: ContactMessage) => {
+  replyingMessage.value = message
+  replyForm.value = {
+    message: '',
+    adminName: '',
+  }
+  showReplyModal.value = true
+}
+
+const closeReplyModal = () => {
+  if (!replying.value) {
+    showReplyModal.value = false
+    replyingMessage.value = null
+    replyForm.value = {
+      message: '',
+      adminName: '',
+    }
+  }
+}
+
+const sendReply = async () => {
+  if (!replyingMessage.value) return
+
+  replying.value = true
+  try {
+    const response = await api.post(`/v1/contact-messages/${replyingMessage.value.id}/reply`, {
+      reply_message: replyForm.value.message,
+      admin_name: replyForm.value.adminName || undefined,
+    })
+
+    if (response.data.success) {
+      await swal.success(response.data.message || 'Balasan berhasil dikirim!')
+      closeReplyModal()
+    } else {
+      await swal.error(response.data.message || 'Gagal mengirim balasan')
+    }
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.response?.data?.errors?.reply_message?.[0] || 'Gagal mengirim balasan'
+    await swal.error(errorMessage)
+    console.error('Error sending reply:', error)
+  } finally {
+    replying.value = false
+  }
 }
 
 onMounted(() => {
