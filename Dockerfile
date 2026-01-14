@@ -44,10 +44,14 @@ WORKDIR /app/backend
 # Copy composer files
 COPY backend/composer*.json ./
 
-# Install PHP dependencies
+# Copy minimal files yang dibutuhkan untuk composer scripts (artisan, bootstrap)
+COPY backend/artisan ./
+COPY backend/bootstrap ./bootstrap
+
+# Install PHP dependencies (dengan scripts karena artisan sudah ada)
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Copy backend source
+# Copy sisa backend source
 COPY backend/ ./
 
 # Copy built frontend files ke public directory
