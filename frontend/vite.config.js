@@ -29,7 +29,5 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
-    // Base path untuk production (akan di-copy ke /frontend di Laravel public)
-    base: process.env.NODE_ENV === 'production' ? '/frontend/' : '/',
   },
 })
