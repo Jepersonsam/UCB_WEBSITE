@@ -388,7 +388,8 @@ const getFeaturedImageUrl = (imagePath: string) => {
   
   // Build URL untuk path relatif (media/images/... atau media/articles/...)
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
   
   // Pastikan path tidak mengandung /storage/ di depannya
   const cleanPath = imagePath.replace(/^\/?storage\//, '')

@@ -353,7 +353,7 @@ const loadPage = (page: number) => {
 
 const exportToPDF = async () => {
   try {
-    const filterParam = filter.value !== 'all' ? `&filter=${filter.value}` : ''
+    const filterParam = filter.value !== 'all' ? `?filter=${filter.value}` : ''
     const response = await api.get(`/v1/join-applications/export/pdf${filterParam}`, {
       responseType: 'blob',
     })
@@ -376,7 +376,7 @@ const exportToPDF = async () => {
 
 const exportToExcel = async () => {
   try {
-    const filterParam = filter.value !== 'all' ? `&filter=${filter.value}` : ''
+    const filterParam = filter.value !== 'all' ? `?filter=${filter.value}` : ''
     const response = await api.get(`/v1/join-applications/export/excel${filterParam}`, {
       responseType: 'blob',
     })

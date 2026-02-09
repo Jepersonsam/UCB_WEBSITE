@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8 sm:space-y-12">
+  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8 sm:space-y-12 pt-12 sm:pt-16 lg:pt-20 pb-8">
     <!-- Header Section -->
     <div class="text-center" data-aos="fade-down">
       <h1 class="text-3xl font-bold text-slate-800 sm:text-4xl lg:text-5xl">Jadwal & Event</h1>

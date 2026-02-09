@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8 sm:space-y-12">
+  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8 sm:space-y-12 pt-12 sm:pt-16 lg:pt-20 pb-8">
     <div class="text-center" data-aos="fade-down">
       <h1 class="text-3xl font-bold text-slate-800 mb-2 sm:mb-3 sm:text-4xl lg:text-5xl">Member Aktif</h1>
       <p class="text-sm sm:text-base text-slate-600">Para anggota yang aktif melayani dalam Unceasing Cantica Bandung</p>
@@ -300,7 +300,9 @@ const getAvatarUrl = (avatarPath: string | null) => {
   // Get backend base URL (same as logo)
   const getBackendUrl = () => {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    return apiUrl.replace('/api', '') || 'http://localhost:8000'
+    let backendUrl = apiUrl.replace('/api', '')
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
+    return backendUrl
   }
   const backendUrl = getBackendUrl()
   
@@ -322,7 +324,9 @@ const getMemberAvatarUrl = (member: Member) => {
   if (member.avatar_url) {
     const getBackendUrl = () => {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-      return apiUrl.replace('/api', '') || 'http://localhost:8000'
+      let backendUrl = apiUrl.replace('/api', '')
+      if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
+      return backendUrl
     }
     const backendUrl = getBackendUrl()
     return member.avatar_url.startsWith('http') ? member.avatar_url : `${backendUrl}${member.avatar_url}`

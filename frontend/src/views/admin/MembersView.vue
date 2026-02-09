@@ -38,7 +38,7 @@
       <div
         v-for="member in filteredMembers"
         :key="member.id"
-        class="flex items-center gap-4 rounded-xl border border-sky-100 bg-white p-4 shadow-sm transition-all hover:border-sky-300 hover:shadow-md"
+        class="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-xl border border-sky-100 bg-white p-4 shadow-sm transition-all hover:border-sky-300 hover:shadow-md"
       >
         <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-full bg-sky-100">
           <img 
@@ -89,7 +89,7 @@
             </span>
           </div>
         </div>
-        <div class="flex gap-2">
+        <div class="flex gap-2 w-full sm:w-auto justify-end">
           <button
             @click="editMember(member)"
             class="rounded-lg px-4 py-2 text-sm text-sky-600 transition-colors hover:bg-sky-50"
@@ -305,7 +305,9 @@ const getMemberAvatarUrl = (member: any) => {
     // We need to prepend backend base URL
     const getBackendUrl = () => {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-      return apiUrl.replace('/api', '') || 'http://localhost:8000'
+      let backendUrl = apiUrl.replace('/api', '')
+      if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
+      return backendUrl
     }
     const backendUrl = getBackendUrl()
     const fullUrl = member.avatar_url.startsWith('http') ? member.avatar_url : `${backendUrl}${member.avatar_url}`
@@ -335,7 +337,9 @@ const getAvatarUrl = (avatarPath: string) => {
   // Get backend base URL (same as logo)
   const getBackendUrl = () => {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    return apiUrl.replace('/api', '') || 'http://localhost:8000'
+    let backendUrl = apiUrl.replace('/api', '')
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
+    return backendUrl
   }
   const backendUrl = getBackendUrl()
   

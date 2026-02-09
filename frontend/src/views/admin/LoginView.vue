@@ -72,8 +72,14 @@ import api from '@/lib/api/client'
 const router = useRouter()
 
 const logoExists = ref(false)
-// Logo URL - file di public folder bisa diakses langsung
-const logoUrl = '/UCB.jpg'
+// Logo URL - menggunakan backend URL
+const getBackendUrl = () => {
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
+  return backendUrl
+}
+const logoUrl = `${getBackendUrl()}/UCB.jpg`
 const form = ref({
   email: '',
   password: ''

@@ -1,7 +1,12 @@
 <template>
   <!-- Public Layout (Website) -->
-  <div v-if="isPublicRoute" class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/20 text-slate-800">
-    <header class="border-b border-slate-200/80 bg-white/95 backdrop-blur-xl shadow-sm sticky top-0 z-50 transition-all duration-300">
+  <div v-if="isPublicRoute" class="min-h-screen bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/30 text-slate-800">
+    <header 
+      :class="[
+        'border-b border-slate-200/80 bg-white/95 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300',
+        isScrolled ? 'shadow-lg' : 'shadow-sm'
+      ]"
+    >
       <div class="mx-auto flex w-full items-center justify-between px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
         <RouterLink to="/" class="flex items-center gap-3 sm:gap-4 transition-all duration-300 hover:scale-[1.02] active:scale-95">
           <div class="flex h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 items-center justify-center rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105 border border-slate-200/50">
@@ -21,53 +26,60 @@
         </RouterLink>
         <nav class="hidden items-center gap-1 lg:gap-2 text-sm lg:text-base font-medium text-slate-700 md:flex">
           <RouterLink 
-            class="relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
             to="/"
             active-class="text-indigo-600 bg-indigo-50 font-semibold"
           >
             <span class="relative z-10">Beranda</span>
+            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
           </RouterLink>
           <RouterLink 
-            class="relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
             to="/gallery"
             active-class="text-indigo-600 bg-indigo-50 font-semibold"
           >
             <span class="relative z-10">Galeri</span>
+            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
           </RouterLink>
           <RouterLink 
-            class="relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
             to="/videos"
             active-class="text-indigo-600 bg-indigo-50 font-semibold"
           >
             <span class="relative z-10">Video</span>
+            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
           </RouterLink>
           <RouterLink 
-            class="relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
             to="/schedule"
             active-class="text-indigo-600 bg-indigo-50 font-semibold"
           >
             <span class="relative z-10">Jadwal</span>
+            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
           </RouterLink>
           <RouterLink 
-            class="relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
             to="/news"
             active-class="text-indigo-600 bg-indigo-50 font-semibold"
           >
             <span class="relative z-10">Berita</span>
+            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
           </RouterLink>
           <RouterLink 
-            class="relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
             to="/members"
             active-class="text-indigo-600 bg-indigo-50 font-semibold"
           >
             <span class="relative z-10">Member</span>
+            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
           </RouterLink>
           <RouterLink 
-            class="relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
             to="/contact"
             active-class="text-indigo-600 bg-indigo-50 font-semibold"
           >
             <span class="relative z-10">Kontak</span>
+            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
           </RouterLink>
           <RouterLink 
             class="relative rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 px-5 py-2.5 lg:px-6 lg:py-3 text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 active:scale-95 font-semibold" 
@@ -183,6 +195,9 @@
         </Transition>
       </RouterView>
     </main>
+
+    <!-- Footer -->
+    <PublicFooter />
   </div>
 
   <!-- Admin Layout (CMS) -->
@@ -192,16 +207,21 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
+import PublicFooter from '@/layouts/PublicFooter.vue'
 import AOS from 'aos'
 
 const route = useRoute()
 const logoExists = ref(false)
 const mobileMenuOpen = ref(false)
+const isScrolled = ref(false)
 
+// Logo URL - menggunakan base URL backend untuk mengakses file di public folder
 // Logo URL - menggunakan base URL backend untuk mengakses file di public folder
 const getBackendUrl = () => {
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  return apiUrl.replace('/api', '') || 'http://localhost:8000'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
+  return backendUrl
 }
 const logoUrl = `${getBackendUrl()}/UCB.jpg`
 
@@ -215,6 +235,10 @@ const handleScroll = () => {
   if (scrollTimeout) {
     clearTimeout(scrollTimeout)
   }
+  
+  // Update scroll state for header shadow
+  isScrolled.value = window.scrollY > 20
+  
   scrollTimeout = setTimeout(() => {
     AOS.refresh()
   }, 150)

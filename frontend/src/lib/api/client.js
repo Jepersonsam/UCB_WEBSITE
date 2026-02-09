@@ -8,7 +8,7 @@ const getBaseURL = () => {
     }
     else {
         // Pastikan menggunakan http:// bukan https://
-        envURL = envURL.replace('https://', 'http://');
+        // envURL = envURL.replace('https://', 'http://');
         // Jika sudah ada /api di akhir, gunakan langsung
         if (!envURL.endsWith('/api')) {
             envURL = envURL.endsWith('/') ? `${envURL}api` : `${envURL}/api`;

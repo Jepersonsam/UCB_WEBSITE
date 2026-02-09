@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full space-y-16 sm:space-y-20 lg:space-y-28">
+  <div class="w-full space-y-16 sm:space-y-20 lg:space-y-28 pb-8">
     <!-- Hero Section -->
-    <section class="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-br from-white via-indigo-50/30 to-slate-50/50 shadow-xl">
+    <section class="relative overflow-hidden border-b border-purple-100/50 bg-gradient-to-br from-indigo-50 via-purple-50/40 to-pink-50/30 shadow-xl">
       <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&q=80')] bg-cover bg-center opacity-[0.015]"></div>
       <div class="relative grid gap-0 lg:grid-cols-2 min-h-[600px] lg:min-h-[700px]">
         <!-- Content Side -->
@@ -13,7 +13,7 @@
             </div>
             <h1 class="text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl md:text-6xl lg:text-7xl tracking-tight">
               <span class="inline-block animate-fade-in-up" style="animation-delay: 0.1s">{{ heroContent.heading1 || 'UNCEASING' }}</span>
-              <span class="block bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 bg-clip-text text-transparent mt-2 sm:mt-3 animate-gradient" style="animation-delay: 0.2s">
+              <span class="block bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mt-2 sm:mt-3 animate-gradient" style="animation-delay: 0.2s">
                 {{ heroContent.heading2 || 'CANTICA BANDUNG' }}
               </span>
             </h1>
@@ -26,7 +26,7 @@
                 :href="isExternalUrl(heroContent.button1?.url) ? heroContent.button1?.url : undefined"
                 :to="!isExternalUrl(heroContent.button1?.url) ? (heroContent.button1?.url || '/schedule') : undefined"
                 :target="isExternalUrl(heroContent.button1?.url) ? '_blank' : undefined"
-                class="group rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 px-6 py-3.5 sm:px-8 sm:py-4 text-sm sm:text-base font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/30 text-center sm:text-left active:scale-95"
+                class="group rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 px-6 py-3.5 sm:px-8 sm:py-4 text-sm sm:text-base font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/30 text-center sm:text-left active:scale-95"
               >
                 {{ heroContent.button1?.text || 'Lihat Jadwal Pelayanan' }}
                 <span class="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -414,13 +414,13 @@
             {{ getMembersByRole('Soprano').length }} Member
           </span>
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex overflow-x-auto pb-4 gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:pb-0 snap-x snap-mandatory scrollbar-hide">
           <div
             v-for="(member, index) in getMembersByRole('Soprano')"
             :key="`soprano-${index}`"
             :data-aos="'zoom-in'"
             :data-aos-delay="index * 100"
-            class="group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
+            class="min-w-[280px] sm:min-w-0 flex-shrink-0 snap-center group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
           >
             <div class="relative mx-auto mb-5 h-28 w-28">
               <div class="absolute inset-0 rounded-full bg-indigo-50 blur-2xl opacity-60"></div>
@@ -456,13 +456,13 @@
             {{ getMembersByRole('Alto').length }} Member
           </span>
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex overflow-x-auto pb-4 gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:pb-0 snap-x snap-mandatory scrollbar-hide">
           <div
             v-for="(member, index) in getMembersByRole('Alto')"
             :key="`alto-${index}`"
             :data-aos="'zoom-in'"
             :data-aos-delay="index * 100"
-            class="group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
+            class="min-w-[280px] sm:min-w-0 flex-shrink-0 snap-center group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
           >
             <div class="relative mx-auto mb-5 h-28 w-28">
               <div class="absolute inset-0 rounded-full bg-indigo-50 blur-2xl opacity-60"></div>
@@ -498,13 +498,13 @@
             {{ getMembersByRole('Tenor').length }} Member
           </span>
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex overflow-x-auto pb-4 gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:pb-0 snap-x snap-mandatory scrollbar-hide">
           <div
             v-for="(member, index) in getMembersByRole('Tenor')"
             :key="`tenor-${index}`"
             :data-aos="'zoom-in'"
             :data-aos-delay="index * 100"
-            class="group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
+            class="min-w-[280px] sm:min-w-0 flex-shrink-0 snap-center group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
           >
             <div class="relative mx-auto mb-5 h-28 w-28">
               <div class="absolute inset-0 rounded-full bg-indigo-50 blur-2xl opacity-60"></div>
@@ -540,13 +540,13 @@
             {{ getMembersByRole('Bass').length }} Member
           </span>
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex overflow-x-auto pb-4 gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:pb-0 snap-x snap-mandatory scrollbar-hide">
           <div
             v-for="(member, index) in getMembersByRole('Bass')"
             :key="`bass-${index}`"
             :data-aos="'zoom-in'"
             :data-aos-delay="index * 100"
-            class="group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
+            class="min-w-[280px] sm:min-w-0 flex-shrink-0 snap-center group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
           >
             <div class="relative mx-auto mb-5 h-28 w-28">
               <div class="absolute inset-0 rounded-full bg-indigo-50 blur-2xl opacity-60"></div>
@@ -582,13 +582,13 @@
             {{ getMembersByRole('Conductor').length }} Member
           </span>
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex overflow-x-auto pb-4 gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:pb-0 snap-x snap-mandatory scrollbar-hide">
           <div
             v-for="(member, index) in getMembersByRole('Conductor')"
             :key="`conductor-${index}`"
             :data-aos="'zoom-in'"
             :data-aos-delay="index * 100"
-            class="group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
+            class="min-w-[280px] sm:min-w-0 flex-shrink-0 snap-center group relative overflow-hidden rounded-2xl border border-indigo-100 bg-slate-50 p-7 text-center shadow-sm transition-all duration-500 hover:border-indigo-200 hover:shadow-xl hover:shadow-sky-100/50 hover:-translate-y-2 hover:scale-[1.02]"
           >
             <div class="relative mx-auto mb-5 h-28 w-28">
               <div class="absolute inset-0 rounded-full bg-indigo-50 blur-2xl opacity-60"></div>
@@ -671,7 +671,7 @@ const defaultHeroContent = {
     text: 'Bergabung dengan Kami',
     url: '/join'
   },
-  imageUrl: '/UCB.png'
+  imageUrl: '/UCB.jpg'
 }
 
 const heroContent = ref({ ...defaultHeroContent })
@@ -685,8 +685,9 @@ const getHeroImageUrl = (url?: string) => {
   if (!url) {
     // Default fallback - coba dari backend public folder
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
-    return `${backendUrl}/UCB.png`
+    let backendUrl = apiUrl.replace('/api', '') 
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
+    return `${backendUrl}/UCB.jpg`
   }
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url
@@ -695,13 +696,15 @@ const getHeroImageUrl = (url?: string) => {
     // Jika path dimulai dengan /, cek apakah file ada di frontend public
     // Jika tidak, coba dari backend
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+    let backendUrl = apiUrl.replace('/api', '')
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
     // Untuk development, coba dari backend public folder
     return `${backendUrl}${url}`
   } 
   // Jika path dari storage (contoh: media/images/filename.jpg)
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
   return `${backendUrl}/storage/${url}`
 }
 
@@ -806,7 +809,8 @@ const getAvatarUrl = (avatarPath: string | null) => {
   if (!avatarPath) return 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80'
   if (avatarPath.startsWith('http')) return avatarPath
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
   return `${backendUrl}/storage/${avatarPath}`
 }
 
@@ -850,7 +854,8 @@ let heroCarouselInterval: ReturnType<typeof setInterval> | null = null
 const getGalleryImageUrl = (image: GalleryImage) => {
   if (image.path) {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+    let backendUrl = apiUrl.replace('/api', '')
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
     return `${backendUrl}/storage/${image.path}`
   }
   return ''
@@ -956,7 +961,8 @@ const getPromosiImageUrl = (path: string) => {
   if (!path) return ''
   if (path.startsWith('http')) return path
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
   return `${backendUrl}/storage/${path}`
 }
 
@@ -1081,7 +1087,8 @@ const getGoogleDriveEmbedUrl = (url: string) => {
 const getVideoFileUrl = (video: LatestVideo) => {
   if (video.video_file_path) {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+    let backendUrl = apiUrl.replace('/api', '')
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
     return `${backendUrl}/storage/${video.video_file_path}`
   }
   return ''

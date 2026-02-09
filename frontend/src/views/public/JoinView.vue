@@ -271,7 +271,17 @@ const handleSubmit = async () => {
   submitError.value = ''
 
   try {
-    await api.post('/v1/join-applications', form.value)
+    // Konversi camelCase ke snake_case untuk backend
+    const formData = {
+      name: form.value.name,
+      email: form.value.email,
+      phone: form.value.phone,
+      voice_part: form.value.voicePart, // Konversi voicePart ke voice_part
+      experience: form.value.experience,
+      reason: form.value.reason
+    }
+    
+    await api.post('/v1/join-applications', formData)
     
     submitSuccess.value = true
     form.value = {

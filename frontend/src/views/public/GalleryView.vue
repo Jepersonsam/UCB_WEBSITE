@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8 sm:space-y-12">
+  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8 sm:space-y-12 pt-12 sm:pt-16 lg:pt-20 pb-8">
     <!-- Header Section -->
     <div class="text-center" data-aos="fade-down">
       <h1 class="text-3xl font-bold text-slate-800 sm:text-4xl lg:text-5xl">Galeri Foto</h1>
@@ -141,7 +141,15 @@ const getImageUrl = (image: GalleryImage) => {
   if (image.path) {
     // Gunakan URL backend untuk mengakses gambar
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+    
+    // FIX: Jangan gunakan operator || karena string kosong ('') itu valid untuk relative path
+    let backendUrl = apiUrl.replace('/api', '')
+    
+    // Jika replace menghasilkan string kosong (dari '/api'), biarkan kosong.
+    // Hanya fallback ke localhost jika apiUrl aslinya memang tidak didefinisikan dengan benar
+    if (backendUrl === '' && apiUrl !== '/api') {
+       backendUrl = 'http://localhost:8000'
+    }
     
     // Path dari database biasanya: "media/images/filename.jpg"
     // URL yang benar: "http://localhost:8000/storage/media/images/filename.jpg"

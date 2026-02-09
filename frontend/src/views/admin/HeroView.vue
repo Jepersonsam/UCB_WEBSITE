@@ -318,14 +318,16 @@ const getImageUrl = (url: string) => {
   }
   // Jika path dari storage (contoh: media/images/filename.jpg)
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
   return `${backendUrl}/storage/${url}`
 }
 
 const getMediaUrl = (media: any) => {
   if (media.path) {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+    let backendUrl = apiUrl.replace('/api', '')
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
     return `${backendUrl}/storage/${media.path}`
   }
   return ''

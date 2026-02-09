@@ -75,7 +75,8 @@ const getMediaUrl = (item: any) => {
   if (item.path) {
     // Gunakan URL backend untuk mengakses gambar
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+    let backendUrl = apiUrl.replace('/api', '')
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
     
     // Path dari database biasanya: "media/images/filename.jpg"
     // URL yang benar: "http://localhost:8000/storage/media/images/filename.jpg"
@@ -174,7 +175,9 @@ const handleFileSelect = async (e: Event) => {
 }
 
 const copyUrl = async (item: any) => {
-  const backendUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000'
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
   const url = item.path.startsWith('storage/') || item.path.startsWith('/storage/')
     ? `${backendUrl}/${item.path.startsWith('/') ? item.path.slice(1) : item.path}`
     : `${backendUrl}/storage/${item.path}`

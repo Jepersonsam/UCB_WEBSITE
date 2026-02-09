@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8 sm:space-y-12">
+  <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8 sm:space-y-12 pt-12 sm:pt-16 lg:pt-20 pb-8">
     <!-- Header Section -->
     <div class="text-center" data-aos="fade-down">
       <h1 class="text-3xl font-bold text-slate-800 sm:text-4xl lg:text-5xl">Video</h1>
@@ -238,7 +238,8 @@ const getGoogleDriveEmbedUrl = (url: string) => {
 const getVideoFileUrl = (video: Video) => {
   if (video.video_file_path) {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+    let backendUrl = apiUrl.replace('/api', '')
+    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
     return `${backendUrl}/storage/${video.video_file_path}`
   }
   return ''
@@ -253,7 +254,8 @@ const getThumbnailUrl = (thumbnail: string) => {
     return thumbnail
   }
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
   return `${backendUrl}/storage/${thumbnail}`
 }
 

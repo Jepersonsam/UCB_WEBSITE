@@ -10,16 +10,16 @@
     <!-- Sidebar -->
     <aside
       :class="[
-        'fixed lg:static inset-y-0 left-0 z-50 w-64 border-r border-sky-100 bg-slate-50 shadow-xl lg:shadow-none transform transition-transform duration-300 ease-in-out lg:transform-none',
+        'fixed lg:static inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-white to-slate-50 border-r border-slate-200 shadow-2xl lg:shadow-none transform transition-transform duration-300 ease-in-out lg:transform-none',
         mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
         'lg:block'
       ]"
     >
       <div class="sticky top-0 flex h-screen flex-col">
         <!-- Logo -->
-        <div class="border-b border-sky-100 p-6 lg:p-8">
+        <div class="border-b border-slate-200 bg-gradient-to-r from-sky-50 to-transparent p-6 lg:p-8">
           <div class="flex items-center gap-4">
-            <div class="flex h-14 w-14 lg:h-16 lg:w-16 items-center justify-center rounded-xl bg-white shadow-sm border border-sky-100">
+            <div class="flex h-14 w-14 lg:h-16 lg:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 shadow-lg shadow-sky-500/30">
               <img
                 v-if="logoExists"
                 :src="logoUrl"
@@ -27,7 +27,7 @@
                 class="h-full w-full object-contain p-1.5"
                 @error="logoExists = false"
               />
-              <span v-else class="text-sky-600 text-base lg:text-lg font-semibold">UCB</span>
+              <span v-else class="text-white text-base lg:text-lg font-bold">UCB</span>
             </div>
             <div>
               <p class="text-base lg:text-lg font-semibold text-slate-800">CMS Admin</p>
@@ -37,14 +37,14 @@
         </div>
 
         <!-- Navigation -->
-        <nav class="flex-1 space-y-1 p-4 lg:p-6">
+        <nav class="flex-1 space-y-1 overflow-y-auto p-4 lg:p-6">
           <RouterLink
             to="/admin/dashboard"
             @click="mobileMenuOpen = false"
-            class="flex items-center gap-3 rounded-xl px-4 py-3.5 lg:py-4 text-base font-medium text-slate-700 transition-all hover:bg-sky-50 hover:text-sky-600"
-            active-class="bg-sky-100 text-sky-600"
+            class="group flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium text-slate-700 transition-all hover:bg-gradient-to-r hover:from-sky-50 hover:to-transparent hover:text-sky-600 hover:translate-x-1"
+            active-class="bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-lg shadow-sky-500/30"
           >
-            <svg class="h-5 w-5 lg:h-6 lg:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
             Dashboard
@@ -53,10 +53,10 @@
           <RouterLink
             to="/admin/articles"
             @click="mobileMenuOpen = false"
-            class="flex items-center gap-3 rounded-xl px-4 py-3.5 lg:py-4 text-base font-medium text-slate-700 transition-all hover:bg-sky-50 hover:text-sky-600"
-            active-class="bg-sky-100 text-sky-600"
+            class="group flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium text-slate-700 transition-all hover:bg-gradient-to-r hover:from-sky-50 hover:to-transparent hover:text-sky-600 hover:translate-x-1"
+            active-class="bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-lg shadow-sky-500/30"
           >
-            <svg class="h-5 w-5 lg:h-6 lg:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             Artikel
@@ -257,7 +257,7 @@
     <!-- Main Content -->
     <div class="flex-1">
       <!-- Top Bar -->
-      <header class="sticky top-0 z-10 border-b border-sky-100 bg-slate-50/95 backdrop-blur-sm shadow-sm">
+      <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur-md shadow-sm">
         <div class="flex items-center justify-between px-6 py-5 lg:py-6">
           <div class="flex items-center gap-4">
             <button
@@ -272,21 +272,27 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h2 class="text-xl lg:text-2xl font-semibold text-slate-800">{{ pageTitle }}</h2>
+            <div>
+              <h2 class="text-xl lg:text-2xl font-bold text-slate-800">{{ pageTitle }}</h2>
+              <p class="text-xs text-slate-500 mt-0.5">{{ getCurrentTime() }}</p>
+            </div>
           </div>
           <div class="flex items-center gap-3">
             <a
               href="/"
               target="_blank"
-              class="rounded-lg px-4 py-2.5 text-base text-slate-600 transition-all hover:bg-sky-50 hover:text-sky-600"
+              class="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-4 py-2.5 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200"
             >
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
               Lihat Website
             </a>
             
             <!-- User Profile & Logout -->
             <div class="flex items-center gap-3 border-l border-sky-200 pl-4">
               <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-100 text-sky-600 text-sm font-semibold">
+                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-sky-600 text-white text-sm font-bold shadow-lg shadow-sky-500/30">
                   {{ userInitials }}
                 </div>
                 <div class="hidden md:block">
@@ -296,11 +302,11 @@
               </div>
               <button
                 @click="handleLogout"
-                class="flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 transition-all hover:bg-red-50 hover:text-red-600"
+                class="group flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all hover:bg-red-50 hover:text-red-600 hover:scale-105"
                 title="Keluar"
                 aria-label="Keluar"
               >
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
               </button>
@@ -310,7 +316,7 @@
       </header>
 
       <!-- Page Content -->
-      <main class="p-6">
+      <main class="p-4 lg:p-6">
         <RouterView />
       </main>
     </div>
@@ -331,34 +337,39 @@ const userInitials = ref('AD')
 const mobileMenuOpen = ref(false)
 
 // Logo URL - menggunakan base URL backend untuk mengakses file di public folder
+// Logo URL - menggunakan base URL backend untuk mengakses file di public folder
 const getBackendUrl = () => {
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  return apiUrl.replace('/api', '') || 'http://localhost:8000'
+  let backendUrl = apiUrl.replace('/api', '')
+  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
+  return backendUrl
 }
 const logoUrl = `${getBackendUrl()}/UCB.jpg`
 
 const pageTitle = computed(() => {
   const titles: Record<string, string> = {
-    '/admin/dashboard': 'Dashboard',
-    '/admin/articles': 'Artikel',
-    '/admin/gallery': 'Galeri',
-    '/admin/videos': 'Video',
-    '/admin/events': 'Event',
-    '/admin/about': 'Tentang',
-    '/admin/join': 'Bergabung',
-    '/admin/join-applications': 'Aplikasi Bergabung',
-    '/admin/hero': 'Hero Section',
-    '/admin/stats': 'Stats Section',
-    '/admin/regular-schedule': 'Jadwal Latihan Reguler',
-    '/admin/audition-schedules': 'Jadwal Audisi',
-    '/admin/promosi': 'Promosi',
-    '/admin/members': 'Member',
-    '/admin/contact-messages': 'Pesan Kontak',
-    '/admin/comments': 'Komentar',
-    '/admin/media': 'Media Library',
-    '/admin/settings': 'Settings'
+    'admin-dashboard': 'Dashboard',
+    'admin-articles': 'Artikel',
+    'admin-article-create': 'Buat Artikel',
+    'admin-article-edit': 'Edit Artikel',
+    'admin-gallery': 'Galeri',
+    'admin-videos': 'Video',
+    'admin-events': 'Event',
+    'admin-about': 'Tentang',
+    'admin-join': 'Bergabung',
+    'admin-join-applications': 'Aplikasi Bergabung',
+    'admin-hero': 'Hero Section',
+    'admin-stats': 'Stats Section',
+    'admin-regular-schedule': 'Jadwal Latihan Reguler',
+    'admin-audition-schedules': 'Jadwal Audisi',
+    'admin-promosi': 'Promosi',
+    'admin-members': 'Member',
+    'admin-contact-messages': 'Pesan Kontak',
+    'admin-comments': 'Komentar',
+    'admin-media': 'Media Library',
+    'admin-settings': 'Settings'
   }
-  return titles[route.path] || 'Dashboard'
+  return titles[route.name as string] || 'Dashboard'
 })
 
 onMounted(() => {
@@ -389,6 +400,16 @@ const handleLogout = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
   router.push('/admin/login')
+}
+
+const getCurrentTime = () => {
+  const now = new Date()
+  return now.toLocaleDateString('id-ID', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  })
 }
 </script>
 

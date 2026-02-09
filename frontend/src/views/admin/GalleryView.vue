@@ -281,7 +281,15 @@ const getMediaUrl = (media: any) => {
   if (media.path) {
     // Gunakan URL backend untuk mengakses gambar
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    const backendUrl = apiUrl.replace('/api', '') || 'http://localhost:8000'
+    
+    // FIX: Jangan gunakan operator || karena string kosong ('') itu valid untuk relative path
+    let backendUrl = apiUrl.replace('/api', '')
+    
+    // Jika replace menghasilkan string kosong (dari '/api'), biarkan kosong.
+    // Hanya fallback ke localhost jika apiUrl aslinya memang tidak didefinisikan dengan benar
+    if (backendUrl === '' && apiUrl !== '/api') {
+       backendUrl = 'http://localhost:8000'
+    }
     
     // Path dari database biasanya: "media/images/filename.jpg"
     // URL yang benar: "http://localhost:8000/storage/media/images/filename.jpg"
