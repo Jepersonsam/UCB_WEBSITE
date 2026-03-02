@@ -1,15 +1,28 @@
 <template>
   <!-- Public Layout (Website) -->
-  <div v-if="isPublicRoute" class="min-h-screen bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/30 text-slate-800">
-    <header 
+  <div
+    v-if="isPublicRoute"
+    class="min-h-screen bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/30 text-slate-800"
+  >
+    <header
       :class="[
-        'border-b border-slate-200/80 bg-white/95 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300',
-        isScrolled ? 'shadow-lg' : 'shadow-sm'
+        'fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500',
+        isScrolled || !isHomePage
+          ? 'bg-slate-900/95 backdrop-blur-xl shadow-xl border-b border-white/10'
+          : 'bg-transparent',
       ]"
     >
-      <div class="mx-auto flex w-full items-center justify-between px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
-        <RouterLink to="/" class="flex items-center gap-3 sm:gap-4 transition-all duration-300 hover:scale-[1.02] active:scale-95">
-          <div class="flex h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 items-center justify-center rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105 border border-slate-200/50">
+      <div
+        class="mx-auto flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+      >
+        <!-- Logo -->
+        <RouterLink
+          to="/"
+          class="flex items-center gap-3 sm:gap-4 transition-all duration-300 hover:scale-[1.02] active:scale-95"
+        >
+          <div
+            class="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm border border-white/25 shadow-md transition-all duration-300 hover:bg-white/25 hover:scale-105"
+          >
             <img
               v-if="logoExists"
               :src="logoUrl"
@@ -17,92 +30,139 @@
               class="h-full w-full object-contain p-1.5"
               @error="logoExists = false"
             />
-            <span v-else class="text-indigo-600 font-bold text-lg sm:text-xl lg:text-2xl">UCB</span>
+            <span v-else class="text-white font-bold text-xl sm:text-2xl"
+              >UCB</span
+            >
           </div>
           <div class="hidden sm:block">
-            <p class="text-base sm:text-lg lg:text-xl font-bold text-slate-900 tracking-tight">Unceasing Cantica Bandung</p>
-            <p class="text-xs sm:text-sm text-slate-500 font-medium">Paduan suara • Bandung</p>
+            <p class="text-base sm:text-lg font-bold text-white tracking-tight">
+              Unceasing Cantica Bandung
+            </p>
+            <p class="text-xs sm:text-sm text-white/60 font-medium">
+              Paduan suara • Bandung
+            </p>
           </div>
         </RouterLink>
-        <nav class="hidden items-center gap-1 lg:gap-2 text-sm lg:text-base font-medium text-slate-700 md:flex">
-          <RouterLink 
-            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+
+        <!-- Desktop Nav -->
+        <nav
+          class="hidden items-center gap-1 text-sm font-medium text-white md:flex"
+        >
+          <RouterLink
+            class="group relative rounded-xl px-4 py-2.5 transition-all duration-300 hover:bg-white/10 active:scale-95"
             to="/"
-            active-class="text-indigo-600 bg-indigo-50 font-semibold"
+            active-class="bg-white/15 font-semibold"
           >
             <span class="relative z-10">Beranda</span>
-            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
+            <span
+              class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-white transition-all duration-300 group-hover:w-3/4"
+            ></span>
           </RouterLink>
-          <RouterLink 
-            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+          <RouterLink
+            class="group relative rounded-xl px-4 py-2.5 transition-all duration-300 hover:bg-white/10 active:scale-95"
             to="/gallery"
-            active-class="text-indigo-600 bg-indigo-50 font-semibold"
+            active-class="bg-white/15 font-semibold"
           >
             <span class="relative z-10">Galeri</span>
-            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
+            <span
+              class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-white transition-all duration-300 group-hover:w-3/4"
+            ></span>
           </RouterLink>
-          <RouterLink 
-            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+          <RouterLink
+            class="group relative rounded-xl px-4 py-2.5 transition-all duration-300 hover:bg-white/10 active:scale-95"
             to="/videos"
-            active-class="text-indigo-600 bg-indigo-50 font-semibold"
+            active-class="bg-white/15 font-semibold"
           >
             <span class="relative z-10">Video</span>
-            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
+            <span
+              class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-white transition-all duration-300 group-hover:w-3/4"
+            ></span>
           </RouterLink>
-          <RouterLink 
-            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+          <RouterLink
+            class="group relative rounded-xl px-4 py-2.5 transition-all duration-300 hover:bg-white/10 active:scale-95"
             to="/schedule"
-            active-class="text-indigo-600 bg-indigo-50 font-semibold"
+            active-class="bg-white/15 font-semibold"
           >
             <span class="relative z-10">Jadwal</span>
-            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
+            <span
+              class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-white transition-all duration-300 group-hover:w-3/4"
+            ></span>
           </RouterLink>
-          <RouterLink 
-            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+          <RouterLink
+            class="group relative rounded-xl px-4 py-2.5 transition-all duration-300 hover:bg-white/10 active:scale-95"
             to="/news"
-            active-class="text-indigo-600 bg-indigo-50 font-semibold"
+            active-class="bg-white/15 font-semibold"
           >
             <span class="relative z-10">Berita</span>
-            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
+            <span
+              class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-white transition-all duration-300 group-hover:w-3/4"
+            ></span>
           </RouterLink>
-          <RouterLink 
-            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+          <RouterLink
+            class="group relative rounded-xl px-4 py-2.5 transition-all duration-300 hover:bg-white/10 active:scale-95"
             to="/members"
-            active-class="text-indigo-600 bg-indigo-50 font-semibold"
+            active-class="bg-white/15 font-semibold"
           >
             <span class="relative z-10">Member</span>
-            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
+            <span
+              class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-white transition-all duration-300 group-hover:w-3/4"
+            ></span>
           </RouterLink>
-          <RouterLink 
-            class="group relative rounded-xl px-4 py-2.5 lg:px-5 lg:py-3 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95" 
+          <RouterLink
+            class="group relative rounded-xl px-4 py-2.5 transition-all duration-300 hover:bg-white/10 active:scale-95"
             to="/contact"
-            active-class="text-indigo-600 bg-indigo-50 font-semibold"
+            active-class="bg-white/15 font-semibold"
           >
             <span class="relative z-10">Kontak</span>
-            <span class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-indigo-600 transition-all duration-300 group-hover:w-3/4"></span>
+            <span
+              class="absolute bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-white transition-all duration-300 group-hover:w-3/4"
+            ></span>
           </RouterLink>
-          <RouterLink 
-            class="relative rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 px-5 py-2.5 lg:px-6 lg:py-3 text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 active:scale-95 font-semibold" 
+          <RouterLink
+            class="relative ml-2 rounded-xl border-2 border-white/70 px-5 py-2.5 text-sm text-white shadow-lg transition-all duration-300 hover:bg-white hover:text-slate-900 hover:border-white active:scale-95 font-semibold"
             to="/join"
-            active-class="from-indigo-700 to-indigo-600"
           >
             <span class="relative z-10">Bergabung</span>
           </RouterLink>
         </nav>
+
         <!-- Mobile Menu Button -->
         <button
           @click="mobileMenuOpen = !mobileMenuOpen"
-          class="flex items-center justify-center rounded-xl p-2.5 text-slate-600 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95 md:hidden"
+          class="flex items-center justify-center rounded-xl p-2.5 text-white transition-all duration-300 hover:bg-white/10 active:scale-95 md:hidden"
           aria-label="Toggle menu"
         >
-          <svg v-if="!mobileMenuOpen" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          <svg
+            v-if="!mobileMenuOpen"
+            class="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
-          <svg v-else class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          <svg
+            v-else
+            class="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
+
       <!-- Mobile Menu -->
       <Transition
         enter-active-class="transition-all duration-300 ease-out"
@@ -114,83 +174,72 @@
       >
         <div
           v-if="mobileMenuOpen"
-          class="border-t border-slate-200/80 bg-white/98 backdrop-blur-xl shadow-sm md:hidden"
+          class="border-t border-white/10 bg-slate-900/97 backdrop-blur-xl shadow-xl md:hidden"
         >
           <nav class="flex flex-col px-4 py-4 space-y-1">
             <RouterLink
               @click="mobileMenuOpen = false"
-              class="rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95"
+              class="rounded-xl px-4 py-3 text-base font-medium text-white transition-all duration-300 hover:bg-white/10 active:scale-95"
               to="/"
-              active-class="text-indigo-600 bg-indigo-50 font-semibold"
+              active-class="bg-white/15 font-semibold"
+              >Beranda</RouterLink
             >
-              Beranda
-            </RouterLink>
             <RouterLink
               @click="mobileMenuOpen = false"
-              class="rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95"
+              class="rounded-xl px-4 py-3 text-base font-medium text-white transition-all duration-300 hover:bg-white/10 active:scale-95"
               to="/gallery"
-              active-class="text-indigo-600 bg-indigo-50 font-semibold"
+              active-class="bg-white/15 font-semibold"
+              >Galeri</RouterLink
             >
-              Galeri
-            </RouterLink>
             <RouterLink
               @click="mobileMenuOpen = false"
-              class="rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95"
+              class="rounded-xl px-4 py-3 text-base font-medium text-white transition-all duration-300 hover:bg-white/10 active:scale-95"
               to="/videos"
-              active-class="text-indigo-600 bg-indigo-50 font-semibold"
+              active-class="bg-white/15 font-semibold"
+              >Video</RouterLink
             >
-              Video
-            </RouterLink>
             <RouterLink
               @click="mobileMenuOpen = false"
-              class="rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95"
+              class="rounded-xl px-4 py-3 text-base font-medium text-white transition-all duration-300 hover:bg-white/10 active:scale-95"
               to="/schedule"
-              active-class="text-indigo-600 bg-indigo-50 font-semibold"
+              active-class="bg-white/15 font-semibold"
+              >Jadwal</RouterLink
             >
-              Jadwal
-            </RouterLink>
             <RouterLink
               @click="mobileMenuOpen = false"
-              class="rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95"
+              class="rounded-xl px-4 py-3 text-base font-medium text-white transition-all duration-300 hover:bg-white/10 active:scale-95"
               to="/news"
-              active-class="text-indigo-600 bg-indigo-50 font-semibold"
+              active-class="bg-white/15 font-semibold"
+              >Berita</RouterLink
             >
-              Berita
-            </RouterLink>
             <RouterLink
               @click="mobileMenuOpen = false"
-              class="rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95"
+              class="rounded-xl px-4 py-3 text-base font-medium text-white transition-all duration-300 hover:bg-white/10 active:scale-95"
               to="/members"
-              active-class="text-indigo-600 bg-indigo-50 font-semibold"
+              active-class="bg-white/15 font-semibold"
+              >Member</RouterLink
             >
-              Member
-            </RouterLink>
             <RouterLink
               @click="mobileMenuOpen = false"
-              class="rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95"
+              class="rounded-xl px-4 py-3 text-base font-medium text-white transition-all duration-300 hover:bg-white/10 active:scale-95"
               to="/contact"
-              active-class="text-indigo-600 bg-indigo-50 font-semibold"
+              active-class="bg-white/15 font-semibold"
+              >Kontak</RouterLink
             >
-              Kontak
-            </RouterLink>
             <RouterLink
               @click="mobileMenuOpen = false"
-              class="rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 px-4 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95"
+              class="mt-2 rounded-xl border-2 border-white/70 px-4 py-3 text-base font-semibold text-white transition-all duration-300 hover:bg-white hover:text-slate-900 active:scale-95"
               to="/join"
+              >Bergabung</RouterLink
             >
-              Bergabung
-            </RouterLink>
           </nav>
         </div>
       </Transition>
     </header>
 
-    <main class="w-full">
+    <main :class="['w-full', !isHomePage ? 'pt-32' : '']">
       <RouterView v-slot="{ Component, route }">
-        <Transition
-          :name="route.meta.transition || 'fade'"
-          mode="out-in"
-        >
+        <Transition :name="route.meta.transition || 'fade'" mode="out-in">
           <component :is="Component" :key="route.path" />
         </Transition>
       </RouterView>
@@ -205,85 +254,75 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
-import { RouterLink, RouterView, useRoute } from 'vue-router'
-import PublicFooter from '@/layouts/PublicFooter.vue'
-import AOS from 'aos'
+import { ref, computed, onMounted, watch, onUnmounted } from "vue";
+import { RouterLink, RouterView, useRoute } from "vue-router";
+import PublicFooter from "@/layouts/PublicFooter.vue";
+import AOS from "aos";
 
-const route = useRoute()
-const logoExists = ref(false)
-const mobileMenuOpen = ref(false)
-const isScrolled = ref(false)
+const route = useRoute();
+const logoExists = ref(false);
+const mobileMenuOpen = ref(false);
+const isScrolled = ref(false);
 
-// Logo URL - menggunakan base URL backend untuk mengakses file di public folder
-// Logo URL - menggunakan base URL backend untuk mengakses file di public folder
 const getBackendUrl = () => {
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  let backendUrl = apiUrl.replace('/api', '')
-  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
-  return backendUrl
-}
-const logoUrl = `${getBackendUrl()}/UCB.jpg`
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+  let backendUrl = apiUrl.replace("/api", "");
+  if (backendUrl === "" && apiUrl !== "/api")
+    backendUrl = "http://localhost:8000";
+  return backendUrl;
+};
+const logoUrl = `${getBackendUrl()}/UCB.jpg`;
 
 const isPublicRoute = computed(() => {
-  return !route.path.startsWith('/admin')
-})
+  return !route.path.startsWith("/admin");
+});
 
-let scrollTimeout: ReturnType<typeof setTimeout> | null = null
+const isHomePage = computed(() => route.path === "/");
+
+let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const handleScroll = () => {
-  if (scrollTimeout) {
-    clearTimeout(scrollTimeout)
-  }
-  
-  // Update scroll state for header shadow
-  isScrolled.value = window.scrollY > 20
-  
+  if (scrollTimeout) clearTimeout(scrollTimeout);
+  isScrolled.value = window.scrollY > 20;
   scrollTimeout = setTimeout(() => {
-    AOS.refresh()
-  }, 150)
-}
+    AOS.refresh();
+  }, 150);
+};
 
 onMounted(() => {
-  // Check if logo exists
-  const img = new Image()
+  const img = new Image();
   img.onload = () => {
-    logoExists.value = true
-  }
+    logoExists.value = true;
+  };
   img.onerror = () => {
-    logoExists.value = false
-  }
-  img.src = logoUrl
+    logoExists.value = false;
+  };
+  img.src = logoUrl;
 
-  // Refresh AOS on scroll to ensure animations work when scrolling up (hanya untuk public routes)
   if (isPublicRoute.value) {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    // Initial refresh
+    window.addEventListener("scroll", handleScroll, { passive: true });
     setTimeout(() => {
-      AOS.refresh()
-    }, 300)
+      AOS.refresh();
+    }, 300);
   }
-})
+});
 
 onUnmounted(() => {
-  // Cleanup scroll event listener
   if (isPublicRoute.value) {
-    window.removeEventListener('scroll', handleScroll)
-    if (scrollTimeout) {
-      clearTimeout(scrollTimeout)
+    window.removeEventListener("scroll", handleScroll);
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+  }
+});
+
+watch(
+  () => route.path,
+  () => {
+    mobileMenuOpen.value = false;
+    if (isPublicRoute.value) {
+      setTimeout(() => {
+        AOS.refresh();
+      }, 100);
     }
-  }
-})
-
-// Refresh AOS on route change (hanya untuk public routes)
-watch(() => route.path, () => {
-  if (isPublicRoute.value) {
-    setTimeout(() => {
-      AOS.refresh()
-    }, 100)
-  }
-})
+  },
+);
 </script>
-
-

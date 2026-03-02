@@ -2,16 +2,27 @@
   <div class="space-y-6">
     <div>
       <h1 class="text-2xl font-bold text-slate-800">Hero Section</h1>
-      <p class="mt-1 text-sm text-slate-600">Kelola konten hero section di halaman beranda</p>
+      <p class="mt-1 text-sm text-slate-600">
+        Kelola konten hero section di halaman beranda
+      </p>
     </div>
 
-    <div v-if="!contentLoaded" class="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm animate-pulse">
+    <div
+      v-if="!contentLoaded"
+      class="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm animate-pulse"
+    >
       <div class="h-6 w-1/2 bg-sky-100 rounded mb-4"></div>
       <div class="h-4 w-full bg-sky-50 rounded mb-2"></div>
       <div class="h-4 w-full bg-sky-50 rounded"></div>
     </div>
-    <div v-else-if="!contentSaved" class="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800 mb-4">
-      <p>Konten ini belum pernah disimpan ke database. Ini adalah konten default dari website.</p>
+    <div
+      v-else-if="!contentSaved"
+      class="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800 mb-4"
+    >
+      <p>
+        Konten ini belum pernah disimpan ke database. Ini adalah konten default
+        dari website.
+      </p>
     </div>
 
     <form @submit.prevent="saveHero" class="space-y-6">
@@ -20,17 +31,23 @@
         <h3 class="mb-4 text-lg font-semibold text-slate-800">Konten Utama</h3>
         <div class="space-y-4">
           <div>
-            <label class="mb-2 block text-sm font-medium text-slate-700">Tag Text</label>
+            <label class="mb-2 block text-sm font-medium text-slate-700"
+              >Tag Text</label
+            >
             <input
               v-model="heroContent.tag"
               type="text"
               class="w-full rounded-xl border border-sky-200 bg-white px-4 py-3 text-slate-800 shadow-sm transition-all focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200"
               placeholder="Harmoni • Pelayanan • Komunitas"
             />
-            <p class="mt-1 text-xs text-slate-500">Teks yang muncul di badge/tag di atas heading</p>
+            <p class="mt-1 text-xs text-slate-500">
+              Teks yang muncul di badge/tag di atas heading
+            </p>
           </div>
           <div>
-            <label class="mb-2 block text-sm font-medium text-slate-700">Heading Baris 1</label>
+            <label class="mb-2 block text-sm font-medium text-slate-700"
+              >Heading Baris 1</label
+            >
             <input
               v-model="heroContent.heading1"
               type="text"
@@ -39,17 +56,23 @@
             />
           </div>
           <div>
-            <label class="mb-2 block text-sm font-medium text-slate-700">Heading Baris 2</label>
+            <label class="mb-2 block text-sm font-medium text-slate-700"
+              >Heading Baris 2</label
+            >
             <input
               v-model="heroContent.heading2"
               type="text"
               class="w-full rounded-xl border border-sky-200 bg-white px-4 py-3 text-slate-800 shadow-sm transition-all focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200"
               placeholder="Tak Berkesudahan"
             />
-            <p class="mt-1 text-xs text-slate-500">Teks ini akan ditampilkan dengan warna gradient biru</p>
+            <p class="mt-1 text-xs text-slate-500">
+              Teks ini akan ditampilkan dengan warna gradient biru
+            </p>
           </div>
           <div>
-            <label class="mb-2 block text-sm font-medium text-slate-700">Deskripsi</label>
+            <label class="mb-2 block text-sm font-medium text-slate-700"
+              >Deskripsi</label
+            >
             <textarea
               v-model="heroContent.description"
               rows="4"
@@ -62,13 +85,17 @@
 
       <!-- Tombol CTA -->
       <div class="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
-        <h3 class="mb-4 text-lg font-semibold text-slate-800">Tombol Call-to-Action</h3>
+        <h3 class="mb-4 text-lg font-semibold text-slate-800">
+          Tombol Call-to-Action
+        </h3>
         <div class="grid gap-4 sm:grid-cols-2">
           <div class="rounded-xl border border-sky-100 bg-slate-50 p-4">
             <h4 class="mb-3 font-semibold text-slate-800">Tombol Utama</h4>
             <div class="space-y-3">
               <div>
-                <label class="mb-1 block text-xs font-medium text-slate-600">Teks Tombol</label>
+                <label class="mb-1 block text-xs font-medium text-slate-600"
+                  >Teks Tombol</label
+                >
                 <input
                   v-model="heroContent.button1.text"
                   type="text"
@@ -82,7 +109,9 @@
             <h4 class="mb-3 font-semibold text-slate-800">Tombol Sekunder</h4>
             <div class="space-y-3">
               <div>
-                <label class="mb-1 block text-xs font-medium text-slate-600">Teks Tombol</label>
+                <label class="mb-1 block text-xs font-medium text-slate-600"
+                  >Teks Tombol</label
+                >
                 <input
                   v-model="heroContent.button2.text"
                   type="text"
@@ -90,15 +119,110 @@
                   placeholder="Bergabung dengan Kami"
                 />
               </div>
-             
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Hero Image -->
+      <!-- Hero Carousel Images -->
       <div class="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
-        <h3 class="mb-4 text-lg font-semibold text-slate-800">Gambar Hero</h3>
+        <div class="mb-4">
+          <h3 class="text-lg font-semibold text-slate-800">
+            Foto Hero Carousel
+          </h3>
+          <p class="mt-1 text-xs text-slate-500">
+            Tambahkan beberapa foto untuk ditampilkan sebagai carousel di hero
+            section.
+          </p>
+        </div>
+
+        <!-- Add from gallery -->
+        <div class="mb-4">
+          <button
+            type="button"
+            @click="openCarouselGallery"
+            class="flex items-center gap-2 rounded-xl bg-sky-50 border border-sky-200 px-4 py-2.5 text-sm font-semibold text-sky-700 hover:bg-sky-100 transition-colors"
+          >
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            + Pilih Foto dari Galeri
+          </button>
+        </div>
+
+        <!-- Current carousel images -->
+        <div
+          v-if="heroContent.heroImages && heroContent.heroImages.length > 0"
+          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-4"
+        >
+          <div
+            v-for="(imgPath, idx) in heroContent.heroImages"
+            :key="idx"
+            class="relative group aspect-video rounded-xl overflow-hidden border border-sky-200"
+          >
+            <img
+              :src="getImageUrl(imgPath)"
+              class="h-full w-full object-cover"
+              @error="handleImageError"
+            />
+            <div
+              class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+            >
+              <button
+                type="button"
+                @click="removeCarouselImage(idx)"
+                class="rounded-lg bg-red-500 p-1.5 text-white hover:bg-red-600"
+              >
+                <svg
+                  class="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="absolute top-1 left-1 bg-black/50 rounded-md px-1.5 py-0.5 text-white text-xs"
+            >
+              {{ idx + 1 }}
+            </div>
+          </div>
+        </div>
+        <div
+          v-else
+          class="rounded-xl border-2 border-dashed border-sky-200 bg-sky-50 p-8 text-center"
+        >
+          <p class="text-sm text-slate-500">
+            Belum ada foto. Klik "Tambah Foto" untuk memilih dari galeri.
+          </p>
+        </div>
+      </div>
+
+      <!-- Legacy single Hero Image (hidden, kept for backward compat) -->
+      <div class="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
+        <h3 class="mb-4 text-lg font-semibold text-slate-800">
+          Gambar Hero (Fallback)
+        </h3>
+        <p class="mb-3 text-xs text-slate-500">
+          Digunakan jika carousel kosong.
+        </p>
         <div class="space-y-4">
           <!-- Tab untuk memilih metode -->
           <div class="flex gap-2 border-b border-sky-100">
@@ -106,7 +230,11 @@
               type="button"
               @click="imageMethod = 'url'"
               class="px-4 py-2 text-sm font-medium transition-colors"
-              :class="imageMethod === 'url' ? 'border-b-2 border-sky-500 text-sky-600' : 'text-slate-600 hover:text-sky-600'"
+              :class="
+                imageMethod === 'url'
+                  ? 'border-b-2 border-sky-500 text-sky-600'
+                  : 'text-slate-600 hover:text-sky-600'
+              "
             >
               URL / Path
             </button>
@@ -114,15 +242,26 @@
               type="button"
               @click="imageMethod = 'upload'"
               class="px-4 py-2 text-sm font-medium transition-colors"
-              :class="imageMethod === 'upload' ? 'border-b-2 border-sky-500 text-sky-600' : 'text-slate-600 hover:text-sky-600'"
+              :class="
+                imageMethod === 'upload'
+                  ? 'border-b-2 border-sky-500 text-sky-600'
+                  : 'text-slate-600 hover:text-sky-600'
+              "
             >
               Upload Baru
             </button>
             <button
               type="button"
-              @click="imageMethod = 'gallery'; openGalleryModal()"
+              @click="
+                imageMethod = 'gallery';
+                openGalleryModal();
+              "
               class="px-4 py-2 text-sm font-medium transition-colors"
-              :class="imageMethod === 'gallery' ? 'border-b-2 border-sky-500 text-sky-600' : 'text-slate-600 hover:text-sky-600'"
+              :class="
+                imageMethod === 'gallery'
+                  ? 'border-b-2 border-sky-500 text-sky-600'
+                  : 'text-slate-600 hover:text-sky-600'
+              "
             >
               Pilih dari Galeri
             </button>
@@ -130,14 +269,19 @@
 
           <!-- URL Input -->
           <div v-if="imageMethod === 'url'">
-            <label class="mb-2 block text-sm font-medium text-slate-700">URL Gambar</label>
+            <label class="mb-2 block text-sm font-medium text-slate-700"
+              >URL Gambar</label
+            >
             <input
               v-model="heroContent.imageUrl"
               type="text"
               class="w-full rounded-xl border border-sky-200 bg-white px-4 py-3 text-slate-800 shadow-sm transition-all focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200"
               placeholder="/UCB.png atau URL lengkap gambar"
             />
-            <p class="mt-1 text-xs text-slate-500">Gunakan path relatif (contoh: /UCB.png) atau URL lengkap (contoh: https://example.com/image.jpg)</p>
+            <p class="mt-1 text-xs text-slate-500">
+              Gunakan path relatif (contoh: /UCB.png) atau URL lengkap (contoh:
+              https://example.com/image.jpg)
+            </p>
           </div>
 
           <!-- Upload Input -->
@@ -153,25 +297,47 @@
               @click="imageUploadInput?.click()"
               class="cursor-pointer rounded-xl border-2 border-dashed border-sky-300 bg-sky-50 p-8 text-center transition-colors hover:border-sky-400 hover:bg-sky-100"
             >
-              <svg class="mx-auto h-12 w-12 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              <svg
+                class="mx-auto h-12 w-12 text-sky-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
               </svg>
-              <p class="mt-2 text-sm font-medium text-slate-700">Klik untuk upload gambar</p>
-              <p class="mt-1 text-xs text-slate-500">Format: JPEG, PNG, GIF, WebP (Maks. 50MB)</p>
+              <p class="mt-2 text-sm font-medium text-slate-700">
+                Klik untuk upload gambar
+              </p>
+              <p class="mt-1 text-xs text-slate-500">
+                Format: JPEG, PNG, GIF, WebP (Maks. 50MB)
+              </p>
             </div>
             <div v-if="uploadingImage" class="mt-4">
-              <div class="mb-2 flex items-center justify-between text-xs text-slate-600">
+              <div
+                class="mb-2 flex items-center justify-between text-xs text-slate-600"
+              >
                 <span>Mengupload...</span>
                 <span>{{ uploadProgress }}%</span>
               </div>
               <div class="h-2 w-full overflow-hidden rounded-full bg-sky-100">
-                <div class="h-full bg-gradient-to-r from-sky-500 to-sky-600 transition-all duration-300" :style="{ width: uploadProgress + '%' }"></div>
+                <div
+                  class="h-full bg-gradient-to-r from-sky-500 to-sky-600 transition-all duration-300"
+                  :style="{ width: uploadProgress + '%' }"
+                ></div>
               </div>
             </div>
           </div>
 
           <!-- Preview -->
-          <div v-if="heroContent.imageUrl" class="rounded-xl border border-sky-200 bg-slate-50 p-4">
+          <div
+            v-if="heroContent.imageUrl"
+            class="rounded-xl border border-sky-200 bg-slate-50 p-4"
+          >
             <p class="mb-2 text-xs font-medium text-slate-600">Preview:</p>
             <img
               :src="getImageUrl(heroContent.imageUrl)"
@@ -196,22 +362,46 @@
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
         @click.self="showGalleryModal = false"
       >
-        <div class="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl border border-sky-100 bg-white p-6 shadow-xl">
+        <div
+          class="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl border border-sky-100 bg-white p-6 shadow-xl"
+        >
           <div class="mb-4 flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-slate-800">Pilih Gambar dari Galeri</h3>
+            <h3 class="text-lg font-semibold text-slate-800">
+              Pilih Gambar dari Galeri
+            </h3>
             <button
               @click="showGalleryModal = false"
               class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
             >
-              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                class="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
-          <div v-if="loadingGallery" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div v-for="i in 8" :key="i" class="aspect-square animate-pulse rounded-xl bg-sky-100"></div>
+          <div
+            v-if="loadingGallery"
+            class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            <div
+              v-for="i in 8"
+              :key="i"
+              class="aspect-square animate-pulse rounded-xl bg-sky-100"
+            ></div>
           </div>
-          <div v-else-if="galleryImages.length === 0" class="rounded-xl border border-sky-100 bg-slate-50 p-12 text-center">
+          <div
+            v-else-if="galleryImages.length === 0"
+            class="rounded-xl border border-sky-100 bg-slate-50 p-12 text-center"
+          >
             <p class="text-slate-600">Belum ada gambar di galeri</p>
           </div>
           <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -219,7 +409,11 @@
               v-for="image in galleryImages"
               :key="image.id"
               class="group relative aspect-square cursor-pointer overflow-hidden rounded-xl border-2 transition-all"
-              :class="selectedGalleryImage?.id === image.id ? 'border-sky-500 ring-2 ring-sky-200' : 'border-sky-100 hover:border-sky-300'"
+              :class="
+                selectedGalleryImage?.id === image.id
+                  ? 'border-sky-500 ring-2 ring-sky-200'
+                  : 'border-sky-100 hover:border-sky-300'
+              "
               @click="selectedGalleryImage = image"
             >
               <img
@@ -227,16 +421,32 @@
                 :alt="image.alt_text || image.original_filename"
                 class="h-full w-full object-cover transition-transform group-hover:scale-110"
               />
-              <div v-if="selectedGalleryImage?.id === image.id" class="absolute inset-0 flex items-center justify-center bg-sky-500/20">
+              <div
+                v-if="selectedGalleryImage?.id === image.id"
+                class="absolute inset-0 flex items-center justify-center bg-sky-500/20"
+              >
                 <div class="rounded-full bg-sky-500 p-2">
-                  <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  <svg
+                    class="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </div>
               </div>
             </div>
           </div>
-          <div v-if="galleryImages.length > 0" class="mt-6 flex justify-end gap-3">
+          <div
+            v-if="galleryImages.length > 0"
+            class="mt-6 flex justify-end gap-3"
+          >
             <button
               @click="showGalleryModal = false"
               class="rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
@@ -254,7 +464,9 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-end gap-4 border-t border-sky-100 pt-6">
+      <div
+        class="flex items-center justify-end gap-4 border-t border-sky-100 pt-6"
+      >
         <button
           type="submit"
           :disabled="saving"
@@ -269,214 +481,247 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import api from '@/lib/api/client'
-import swal from '@/utils/swal'
+import { ref, onMounted } from "vue";
+import api from "@/lib/api/client";
+import swal from "@/utils/swal";
 
-const imageUploadInput = ref<HTMLInputElement | null>(null)
-const imageMethod = ref<'url' | 'upload' | 'gallery'>('url')
-const showGalleryModal = ref(false)
-const loadingGallery = ref(false)
-const galleryImages = ref<any[]>([])
-const selectedGalleryImage = ref<any>(null)
-const uploadingImage = ref(false)
-const uploadProgress = ref(0)
+const imageUploadInput = ref<HTMLInputElement | null>(null);
+const imageMethod = ref<"url" | "upload" | "gallery">("url");
+const showGalleryModal = ref(false);
+const carouselGalleryMode = ref(false); // true = adding to carousel, false = single image
+const loadingGallery = ref(false);
+const galleryImages = ref<any[]>([]);
+const selectedGalleryImage = ref<any>(null);
+const uploadingImage = ref(false);
+const uploadProgress = ref(0);
 
 const defaultContent = {
-  tag: 'Harmoni • Pelayanan • Komunitas',
-  heading1: 'Pujian yang',
-  heading2: 'Tak Berkesudahan',
-  description: 'Unceasing Cantica Bandung adalah paduan suara yang didirikan pada 22 Maret 2001 oleh Sir Dante Oblimar di Universitas Advent Indonesia (UNAI), Bandung. Melayani Tuhan dan memberkati banyak orang melalui musik koor yang penuh harmoni.',
+  tag: "Harmoni • Pelayanan • Komunitas",
+  heading1: "Pujian yang",
+  heading2: "Tak Berkesudahan",
+  description:
+    "Unceasing Cantica Bandung adalah paduan suara yang didirikan pada 22 Maret 2001 oleh Sir Dante Oblimar di Universitas Advent Indonesia (UNAI), Bandung. Melayani Tuhan dan memberkati banyak orang melalui musik koor yang penuh harmoni.",
   button1: {
-    text: 'Lihat Jadwal Pelayanan',
-    url: '/schedule'
+    text: "Lihat Jadwal Pelayanan",
+    url: "/schedule",
   },
   button2: {
-    text: 'Bergabung dengan Kami',
-    url: '/join'
+    text: "Bergabung dengan Kami",
+    url: "/join",
   },
-  imageUrl: '/UCB.png'
-}
+  imageUrl: "/UCB.png",
+  heroImages: [] as string[],
+};
 
-const heroContent = ref({ ...defaultContent })
-const saving = ref(false)
-const contentLoaded = ref(false)
-const contentSaved = ref(false)
+const heroContent = ref({ ...defaultContent });
+const saving = ref(false);
+const contentLoaded = ref(false);
+const contentSaved = ref(false);
 
 const handleImageError = (e: Event) => {
-  const img = e.target as HTMLImageElement
-  img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect fill="%23e0e7ef" width="200" height="200"/%3E%3Ctext fill="%2394a3b8" font-family="sans-serif" font-size="14" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EGambar tidak ditemukan%3C/text%3E%3C/svg%3E'
-}
+  const img = e.target as HTMLImageElement;
+  img.src =
+    'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect fill="%23e0e7ef" width="200" height="200"/%3E%3Ctext fill="%2394a3b8" font-family="sans-serif" font-size="14" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EGambar tidak ditemukan%3C/text%3E%3C/svg%3E';
+};
 
 const getImageUrl = (url: string) => {
-  if (!url) return ''
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    return url
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
   }
-  if (url.startsWith('/')) {
-    return url
+  if (url.startsWith("/")) {
+    return url;
   }
   // Jika path dari storage (contoh: media/images/filename.jpg)
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-  let backendUrl = apiUrl.replace('/api', '')
-  if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
-  return `${backendUrl}/storage/${url}`
-}
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+  let backendUrl = apiUrl.replace("/api", "");
+  if (backendUrl === "" && apiUrl !== "/api")
+    backendUrl = "http://localhost:8000";
+  return `${backendUrl}/storage/${url}`;
+};
 
 const getMediaUrl = (media: any) => {
   if (media.path) {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-    let backendUrl = apiUrl.replace('/api', '')
-    if (backendUrl === '' && apiUrl !== '/api') backendUrl = 'http://localhost:8000'
-    return `${backendUrl}/storage/${media.path}`
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+    let backendUrl = apiUrl.replace("/api", "");
+    if (backendUrl === "" && apiUrl !== "/api")
+      backendUrl = "http://localhost:8000";
+    return `${backendUrl}/storage/${media.path}`;
   }
-  return ''
-}
+  return "";
+};
 
 const handleImageUpload = async (e: Event) => {
-  const target = e.target as HTMLInputElement
-  if (!target.files || target.files.length === 0) return
+  const target = e.target as HTMLInputElement;
+  if (!target.files || target.files.length === 0) return;
 
-  const file = target.files[0]
-  const maxSize = 50 * 1024 * 1024 // 50MB
+  const file = target.files[0];
+  const maxSize = 50 * 1024 * 1024; // 50MB
 
   if (file.size > maxSize) {
-    await swal.warning('File terlalu besar! Ukuran maksimal adalah 50MB.')
-    target.value = ''
-    return
+    await swal.warning("File terlalu besar! Ukuran maksimal adalah 50MB.");
+    target.value = "";
+    return;
   }
 
-  if (!file.type.startsWith('image/')) {
-    await swal.warning('File harus berupa gambar (JPEG, PNG, GIF, WebP)')
-    target.value = ''
-    return
+  if (!file.type.startsWith("image/")) {
+    await swal.warning("File harus berupa gambar (JPEG, PNG, GIF, WebP)");
+    target.value = "";
+    return;
   }
 
-  uploadingImage.value = true
-  uploadProgress.value = 0
+  uploadingImage.value = true;
+  uploadProgress.value = 0;
 
   try {
-    const formData = new FormData()
-    formData.append('file', file)
+    const formData = new FormData();
+    formData.append("file", file);
 
     const uploadConfig = {
       timeout: 300000, // 5 menit
       onUploadProgress: (progressEvent: any) => {
         if (progressEvent.total) {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-          uploadProgress.value = percentCompleted
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total,
+          );
+          uploadProgress.value = percentCompleted;
         }
-      }
-    }
+      },
+    };
 
-    const response = await api.post('/v1/gallery/upload', formData, uploadConfig)
-    const media = response.data.media || response.data
-    
+    const response = await api.post(
+      "/v1/gallery/upload",
+      formData,
+      uploadConfig,
+    );
+    const media = response.data.media || response.data;
+
     // Set imageUrl ke path dari response
     if (media.path) {
-      heroContent.value.imageUrl = media.path
-      imageMethod.value = 'url'
-      await swal.success('Gambar berhasil diupload!')
+      heroContent.value.imageUrl = media.path;
+      imageMethod.value = "url";
+      await swal.success("Gambar berhasil diupload!");
     }
   } catch (error: any) {
-    console.error('Error uploading image:', error)
-    let errorMessage = 'Gagal upload gambar'
+    console.error("Error uploading image:", error);
+    let errorMessage = "Gagal upload gambar";
     if (error.response?.data?.message) {
-      errorMessage = error.response.data.message
+      errorMessage = error.response.data.message;
     }
-    await swal.error(errorMessage)
+    await swal.error(errorMessage);
   } finally {
-    uploadingImage.value = false
-    uploadProgress.value = 0
-    target.value = ''
+    uploadingImage.value = false;
+    uploadProgress.value = 0;
+    target.value = "";
   }
-}
+};
 
 const fetchGallery = async () => {
-  loadingGallery.value = true
+  loadingGallery.value = true;
   try {
-    const response = await api.get('/v1/gallery')
-    galleryImages.value = response.data.all_media || []
+    const response = await api.get("/v1/gallery");
+    galleryImages.value = response.data.all_media || [];
   } catch (error) {
-    console.error('Error fetching gallery:', error)
-    galleryImages.value = []
+    console.error("Error fetching gallery:", error);
+    galleryImages.value = [];
   } finally {
-    loadingGallery.value = false
+    loadingGallery.value = false;
   }
-}
+};
 
 const selectGalleryImage = () => {
-  if (selectedGalleryImage.value) {
-    if (selectedGalleryImage.value.path) {
-      heroContent.value.imageUrl = selectedGalleryImage.value.path
-      imageMethod.value = 'url'
+  if (selectedGalleryImage.value?.path) {
+    if (carouselGalleryMode.value) {
+      // Add to carousel
+      if (!heroContent.value.heroImages) heroContent.value.heroImages = [];
+      if (
+        !heroContent.value.heroImages.includes(selectedGalleryImage.value.path)
+      ) {
+        heroContent.value.heroImages.push(selectedGalleryImage.value.path);
+      }
+    } else {
+      // Set as single/fallback image
+      heroContent.value.imageUrl = selectedGalleryImage.value.path;
+      imageMethod.value = "url";
     }
-    showGalleryModal.value = false
-    selectedGalleryImage.value = null
+    showGalleryModal.value = false;
+    selectedGalleryImage.value = null;
   }
-}
+};
+
+const removeCarouselImage = (idx: number) => {
+  heroContent.value.heroImages?.splice(idx, 1);
+};
 
 const openGalleryModal = () => {
-  showGalleryModal.value = true
-  fetchGallery()
-}
+  carouselGalleryMode.value = false;
+  showGalleryModal.value = true;
+  fetchGallery();
+};
+
+const openCarouselGallery = () => {
+  carouselGalleryMode.value = true;
+  showGalleryModal.value = true;
+  fetchGallery();
+};
 
 const fetchHero = async () => {
   try {
-    const response = await api.get('/v1/settings')
-    const data = response.data
-    
+    const response = await api.get("/v1/settings");
+    const data = response.data;
+
     if (data.hero_content) {
       try {
-        const parsed = typeof data.hero_content === 'string' 
-          ? JSON.parse(data.hero_content) 
-          : data.hero_content
-        
-        heroContent.value = { 
-          ...defaultContent, 
+        const parsed =
+          typeof data.hero_content === "string"
+            ? JSON.parse(data.hero_content)
+            : data.hero_content;
+
+        heroContent.value = {
+          ...defaultContent,
           ...parsed,
           button1: { ...defaultContent.button1, ...(parsed.button1 || {}) },
-          button2: { ...defaultContent.button2, ...(parsed.button2 || {}) }
-        }
-        contentSaved.value = true
+          button2: { ...defaultContent.button2, ...(parsed.button2 || {}) },
+          heroImages: Array.isArray(parsed.heroImages) ? parsed.heroImages : [],
+        };
+        contentSaved.value = true;
       } catch (e) {
-        console.error('Error parsing hero_content:', e)
-        heroContent.value = { ...defaultContent }
-        contentSaved.value = false
+        console.error("Error parsing hero_content:", e);
+        heroContent.value = { ...defaultContent };
+        contentSaved.value = false;
       }
     } else {
-      heroContent.value = { ...defaultContent }
-      contentSaved.value = false
+      heroContent.value = { ...defaultContent };
+      contentSaved.value = false;
     }
   } catch (error) {
-    console.error('Error fetching hero content:', error)
-    heroContent.value = { ...defaultContent }
-    contentSaved.value = false
+    console.error("Error fetching hero content:", error);
+    heroContent.value = { ...defaultContent };
+    contentSaved.value = false;
   } finally {
-    contentLoaded.value = true
+    contentLoaded.value = true;
   }
-}
+};
 
 const saveHero = async () => {
-  saving.value = true
+  saving.value = true;
   try {
-    await api.put('/v1/settings', {
+    await api.put("/v1/settings", {
       settings: {
-        hero_content: JSON.stringify(heroContent.value)
-      }
-    })
-    await swal.success('Konten Hero Section berhasil disimpan!')
-    contentSaved.value = true
+        hero_content: JSON.stringify(heroContent.value),
+      },
+    });
+    await swal.success("Konten Hero Section berhasil disimpan!");
+    contentSaved.value = true;
   } catch (error: any) {
-    await swal.error(error.response?.data?.message || 'Gagal menyimpan konten')
-    console.error('Error saving hero content:', error)
+    await swal.error(error.response?.data?.message || "Gagal menyimpan konten");
+    console.error("Error saving hero content:", error);
   } finally {
-    saving.value = false
+    saving.value = false;
   }
-}
+};
 
 onMounted(() => {
-  fetchHero()
-})
+  fetchHero();
+});
 </script>
-
