@@ -49,34 +49,53 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+        try {
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
             ]);
-        }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+            $user = User::where('email', $request->email)->first();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Login successful',
-            'data' => [
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'role' => 'Administrator', // Default role, bisa diubah jika ada sistem role
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                return response()->json([
+                    'message' => 'Email atau password salah',
+                    'errors' => [
+                        'email' => ['Kredensial yang diberikan tidak valid.'],
+                    ],
+                ], 422);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Login successful',
+                'data' => [
+                    'user' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'role' => 'Administrator', // Default role, bisa diubah jika ada sistem role
+                    ],
+                    'token' => $token,
                 ],
-                'token' => $token,
-            ],
-        ]);
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validasi gagal',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            \Log::error('Login error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'message' => 'Server Error: ' . $e->getMessage(),
+                'error' => config('app.debug') ? $e->getTraceAsString() : 'Terjadi kesalahan pada server',
+            ], 500);
+        }
     }
 
     /**
